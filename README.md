@@ -1,1 +1,1 @@
-enterSandMail
+enterSandMail send emails automagic
