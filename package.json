@@ -4,6 +4,7 @@
   "description": "enterSandMail",
   "main": "index.js",
   "scripts": {
+    "dev": "ts-node-dev src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,17 +12,18 @@
   "license": "ISC",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.10",
     "@types/express": "^4.17.12",
+    "@types/jsonwebtoken": "^8.5.1",
     "@types/node": "^15.12.2",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.2"
   },
-  "dependencies": {
-    "@types/cors": "^2.8.10",
-    "@types/jsonwebtoken": "^8.5.1",
+  "dependencies": {    
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "ts-node-dev": "^1.1.6"
   }
 }
