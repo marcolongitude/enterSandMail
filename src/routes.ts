@@ -15,9 +15,9 @@ routes.get('/', (req: Request, res: Response) => {
 routes.post('/users', userController.create);
 routes.post("/sessions", sessionController.store);
 
-routes.use(AuthMiddleware);
+// routes.use(AuthMiddleware);
 //User routes authenticated
-routes.get('/users', userController.getAll);
+routes.get('/users', AuthMiddleware('sa'), userController.getAll);
 routes.get('/users/:id', userController.getById);
 routes.get('/users/:email', userController.getByEmail);
 routes.put('/users/:id', userController.update);

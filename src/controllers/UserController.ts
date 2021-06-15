@@ -8,8 +8,9 @@ import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
 
+import userModel from '../model/user';
 class UserController {
-    
+
     //função criar usuario
     async create(req: Request, res: Response) {
 
@@ -34,25 +35,23 @@ class UserController {
 
         delete req.body.password;
 
-        const { id_user, user_name, user_email, password_hash, user_permission } = await prisma.users.create({
-            data: req.body
-        });
+        const { id_user, user_name, user_email, password_hash, user_permission } = await userModel.createUser.v1(req.body);
 
         return res.json({ id_user, user_name, user_email, password_hash, user_permission });
     }
 
     //função para listar todos os usuários
     async getAll(req: Request, res: Response) {
-        const allUsers = await prisma.users.findMany();
+        const allUsers = await userModel.getUsers.v1();
         return res.json(allUsers);
     }
-    
+
     //função para listar usuário por id
     async getById(req: Request, res: Response) {
         const userId = req.params.id;
         const id = parseInt(userId);
 
-        const user = await prisma.users.findUnique({where: { id_user: id } });
+        const user = await userModel.getUser.v1(id);
         return res.json(user);
     }
 

@@ -2,27 +2,45 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { promisify } from "util";
 import authConfig from "./authConfigJWT";
+import userModel from '../model/user';
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+export default (permissao : string)=> {
+    const arrayPermissao: string[] = permissao.split('');
 
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader) {
-        return res.status(401).json({ error: "Token not provided" });
+    const permissoes: any = {
+        super: 's',
+        admin: 'a',
+        comun: 'c',
     }
 
-    const [, token] = authHeader.split(" ");
+    return async(req: Request, res: Response, next: NextFunction) => {
 
-    try {
-        
-        // const decoded = await promisify(jwt.verify)(token, authConfig.secret);
+        const token = req.headers.authorization;
 
-        const decoded: any = jwt.verify(token, authConfig.secret);
+        if (!token) {
+            return res.status(401).json({ error: "Token not provided" });
+        }
 
-        req.body.userId = decoded.id_user;
+        try {
+            const decoded: any = jwt.verify(token, authConfig.secret);
+            const user = await userModel.getUser.v1(decoded.id_user);
+            if(!user){
+                throw new Error('User not found');
+            }
 
-        return next();
-    } catch (err) {
-        return res.status(401).json({ error: "Token invalid" });
+            if(decoded.id_user !== user.id_user || decoded.user_permission !== user.user_permission){
+                throw new Error('Token invalid');
+            }
+
+            if(!arrayPermissao.includes(permissoes[user.user_permission])){
+                throw new Error('Inauthorized');
+            }
+
+            req.body.userId = decoded.id_user;
+
+            return next();
+        } catch (err) {
+            return res.status(401).json({ error: err.message });
+        }
     }
 };
