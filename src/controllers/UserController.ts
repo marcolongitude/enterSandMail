@@ -42,7 +42,7 @@ class UserController {
 
     //função para listar todos os usuários
     async getAll(req: Request, res: Response) {
-        const allUsers = await userModel.getUsers.v1();
+        const allUsers = await userModel.getAllUsers.v1();
         return res.json(allUsers);
     }
 
@@ -58,7 +58,7 @@ class UserController {
     //função para listar usuario por email
     async getByEmail(req: Request, res: Response) {
         const userEmail = req.params.email;
-        const user = await prisma.users.findUnique({where: { user_email: userEmail } });
+        const user = await userModel.getUserByEmail.v1(userEmail);
         return res.json(user);
     }
 
