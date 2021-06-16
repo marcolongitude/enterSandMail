@@ -1,14 +1,10 @@
 import * as Yup from 'yup';
 import bcrypt from "bcryptjs";
-
 import checkPassword from '../util/checkPassword';
-
-import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
 
-const prisma = new PrismaClient();
-
 import userModel from '../model/user';
+
 class UserController {
 
     //função criar usuario
@@ -25,7 +21,7 @@ class UserController {
             return res.status(400).json({error: 'Validation fails'});
         }
 
-        const userExists = await prisma.users.findUnique({ where: { user_email: req.body.user_email } });
+        const userExists = await userModel.getUserByEmail.v1(req.body.user_email);
 
         if (userExists) {
             return res.status(400).json({ error: "User already exists!" });
