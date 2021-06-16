@@ -36,9 +36,20 @@ export const getUserByEmail = {
         });
     }
 }
+
+export const updateUser = {
+    v1: async(id: number, dataUser: object) => {
+        return await prisma.users.update({
+            where: {id_user: id},
+            data: dataUser
+        })
+    }
+}
+
 export default {
     createUser,
     getAllUsers,
     getUser,
-    getUserByEmail
+    getUserByEmail,
+    updateUser
 }

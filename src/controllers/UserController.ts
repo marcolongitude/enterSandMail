@@ -82,17 +82,14 @@ class UserController {
             return res.status(400).json({error: 'Validation fails'});
         }
 
-        const user = await prisma.users.findUnique({ where: { id_user: req.body.userId}});
+        const user = await userModel.getUser.v1(req.body.userId);
 
         if(!user){
             return res.status(401).json({ error: "User not exists!" });
         }
 
-        if (req.body.user_email !== user.user_email) {
-            const userExists = await prisma.users.findUnique({ where: { user_email: req.body.user_email } });
-            if (userExists) {
-                return res.status(400).json({ error: "User already exists!" });
-            }
+        if (req.body.user_email !== user.user_email) {            
+            return res.status(400).json({ error: "User does not match" });            
         }
 
         if (req.body.oldPassword && !(await checkPassword(req.body.oldPassword, user.password_hash))) {
@@ -109,10 +106,7 @@ class UserController {
             user_permission: req.body.user_permission
         }
 
-        const response = await prisma.users.update({
-            where: {id_user: UserId},
-            data: dataUser
-        });
+        const response = await userModel.updateUser.v1(UserId, dataUser);
 
         // return res.json({ id_usuarios, nome_usuarios, email_usuarios });
         if(response){
