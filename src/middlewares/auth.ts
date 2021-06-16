@@ -3,13 +3,13 @@ import jwt from "jsonwebtoken";
 import authConfig from "./authConfigJWT";
 import userModel from '../model/user';
 
-export default (permissao : string)=> {
-    const arrayPermissao: string[] = permissao.split('');
+export default (permission: string)=> {
+    const arrayPermission: Array<string> = permission.split('');
 
-    const permissoes: any = {
+    const permissions: any = {
         super: 's',
         admin: 'a',
-        comun: 'c',
+        comum: 'c',
     }
 
     return async(req: Request, res: Response, next: NextFunction) => {
@@ -23,7 +23,7 @@ export default (permissao : string)=> {
         try {
             const decoded: any = jwt.verify(token, authConfig.secret);
 
-            const user = await userModel.getUser.v1(decoded.id_user);
+            const user: any = await userModel.getUser.v1(decoded.id_user);
            
             if(!user){
                 throw new Error('User not found');
@@ -33,7 +33,7 @@ export default (permissao : string)=> {
                 throw new Error('Token invalid');
             }
 
-            if(!arrayPermissao.includes(permissoes[user.user_permission])){
+            if(!arrayPermission.includes(permissions[user?.user_permission])){
                 throw new Error('Unauthorized');
             }
 
