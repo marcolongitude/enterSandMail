@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { promisify } from "util";
 import authConfig from "./authConfigJWT";
 import userModel from '../model/user';
 
@@ -15,7 +14,7 @@ export default (permissao : string)=> {
 
     return async(req: Request, res: Response, next: NextFunction) => {
 
-        const token = req.headers.authorization;
+        const token: any = req.headers.token;
 
         if (!token) {
             return res.status(401).json({ error: "Token not provided" });
@@ -23,7 +22,9 @@ export default (permissao : string)=> {
 
         try {
             const decoded: any = jwt.verify(token, authConfig.secret);
+
             const user = await userModel.getUser.v1(decoded.id_user);
+           
             if(!user){
                 throw new Error('User not found');
             }
@@ -33,7 +34,7 @@ export default (permissao : string)=> {
             }
 
             if(!arrayPermissao.includes(permissoes[user.user_permission])){
-                throw new Error('Inauthorized');
+                throw new Error('Unauthorized');
             }
 
             req.body.userId = decoded.id_user;

@@ -7,7 +7,6 @@ import userModel from '../model/user';
 
 class UserController {
 
-    //função criar usuario
     async create(req: Request, res: Response) {
 
         const schema = Yup.object().shape({
@@ -110,9 +109,7 @@ class UserController {
         }else{
             return res.status(400).json({erro: "erro ao atualizar os dados no banco"});
         }
-
     }
-
 }
 
 export default new UserController();

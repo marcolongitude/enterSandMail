@@ -21,8 +21,6 @@ class SessionController {
       password: Yup.string().required(),
     });
 
-    console.log(req.body.data);
-    
     if (!(await schema.isValid(req.body.data))){
       return res.status(400).json({error: 'Validation fails'});
     }
