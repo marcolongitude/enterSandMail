@@ -12,14 +12,14 @@ routes.get('/', (req: Request, res: Response) => {
 });
 
 //User routes not authenticated
-routes.post('/users', userController.create);
 routes.post("/sessions", sessionController.store);
 
 // routes.use(AuthMiddleware);
 //User routes authenticated
+routes.post('/users', userController.create);
 routes.get('/users', AuthMiddleware('sa'), userController.getAll);
-routes.get('/users/:id', userController.getById);
-routes.get('/users/:email', userController.getByEmail);
-routes.put('/users/:id', userController.update);
+routes.get('/users/:id', AuthMiddleware('sac'), userController.getById);
+routes.get('/users/:email', AuthMiddleware('sa'), userController.getByEmail);
+routes.put('/users/:id', AuthMiddleware('sa'), userController.update);
 
 export default routes;
