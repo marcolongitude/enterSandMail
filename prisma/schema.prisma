@@ -20,5 +20,5 @@ model users {
 enum users_user_permission {
   admin
   comum
-  cad
+  super
 }
