@@ -4,7 +4,7 @@
   "description": "enterSandMail",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev src/server.ts",
+    "dev": "ts-node-dev --respawn --exit-child --ignore-watch node_modules --no-notify src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
