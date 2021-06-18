@@ -26,7 +26,7 @@ class SessionController {
     const user = await prisma.users.findUnique({ where: { user_email } });
 
     if (!user) {
-      return res.status(401).json({ error: "user not found", status: 401 });
+      return res.status(401).json({ error: "User not found", status: 401 });
     }
 
     if (!(await checkPassword(password, user.password_hash))) {

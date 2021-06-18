@@ -6,7 +6,6 @@ export const createUser = {
         const response = await prisma.users.create({
             data: body
         });
-
         return response;
     }
 }

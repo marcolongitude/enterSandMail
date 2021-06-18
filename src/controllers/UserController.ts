@@ -35,13 +35,11 @@ class UserController {
         return res.json({ id_user, user_name, user_email, password_hash, user_permission });
     }
 
-    //função para listar todos os usuários
     async getAll(req: Request, res: Response) {
         const allUsers = await userModel.getAllUsers.v1();
         return res.json(allUsers);
     }
 
-    //função para listar usuário por id
     async getById(req: Request, res: Response) {
         const userId = req.params.id;
         const id = parseInt(userId);
@@ -50,16 +48,13 @@ class UserController {
         return res.json(user);
     }
 
-    //função para listar usuario por email
     async getByEmail(req: Request, res: Response) {
         const userEmail = req.params.email;
         const user = await userModel.getUserByEmail.v1(userEmail);
         return res.json(user);
     }
 
-    //função atualizar dados do usuario
     async update(req: Request, res: Response) {
-
         const schema = Yup.object().shape({
             user_name: Yup.string(),
             user_email: Yup.string().email(),
@@ -103,11 +98,10 @@ class UserController {
 
         const response = await userModel.updateUser.v1(UserId, dataUser);
 
-        // return res.json({ id_usuarios, nome_usuarios, email_usuarios });
         if(response){
-            return res.status(200).json('Dados atualizados com sucesso!');
+            return res.status(200).json('Data updated successfully!');
         }else{
-            return res.status(400).json({erro: "erro ao atualizar os dados no banco"});
+            return res.status(400).json({erro: "Error updating the data in the database"});
         }
     }
 }

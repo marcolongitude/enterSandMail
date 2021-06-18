@@ -14,7 +14,6 @@ routes.get('/', (req: Request, res: Response) => {
 //User routes not authenticated
 routes.post("/sessions", sessionController.store);
 
-// routes.use(AuthMiddleware);
 //User routes authenticated
 routes.post('/users', userController.create);
 routes.get('/users', AuthMiddleware('sa'), userController.getAll);
