@@ -6,13 +6,9 @@ import AuthConfig from '../middlewares/authConfigJWT';
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from "express";
 
-import {readFileXLS} from '../util/readFileXLS';
-
 
 class SessionController {
   async store(req: Request, res: Response) {
-
-   readFileXLS()
 
     const prisma = new PrismaClient();
 
