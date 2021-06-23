@@ -8,7 +8,7 @@ import { Request, Response } from "express";
 
 
 class SessionController {
-  async store(req: Request, res: Response) {
+  async store(req: Request, res: Response): Promise<object> {
 
     const prisma = new PrismaClient();
 

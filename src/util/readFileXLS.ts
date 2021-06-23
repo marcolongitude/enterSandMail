@@ -5,7 +5,7 @@ interface IXlData {
   Email: string;
   Telefone: number;
 }
-export const readFileXLS = (pathFileXLXS: any): Array<object> => {
+export const readFileXLS = (pathFileXLXS: string): Array<object> => {
   var workbook = xlsx.readFile(pathFileXLXS);
   var sheet_name_list = workbook.SheetNames;
   var xlData: Array<IXlData> = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
