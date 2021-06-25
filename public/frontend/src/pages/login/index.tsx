@@ -1,11 +1,12 @@
 import React from 'react'
+import { Container } from '@material-ui/core'
 
 const Login = () => {
 
   return (
-    <div>
+    <Container>
       <p>Página de login</p>
-    </div>
+    </Container>
   )
 
 }
