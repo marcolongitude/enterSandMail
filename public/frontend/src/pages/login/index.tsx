@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Container, TextField, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { colors } from '../../styles'
 import logoSandMail from '../../assets/images/logo.png' 
+
+import {useDispatch} from 'react-redux';
+import { loginUser } from '../../store/slices/userLogin/userLoginSlice'
+import { sessionUser } from '../../api'
+
 
 const useStyles = makeStyles({
   root: {
@@ -45,20 +50,59 @@ const useStyles = makeStyles({
   logo: {
     height: 80,
     margin: '-25px 0 10px 0'
+  },
+  title: {
+    paddingBottom: 10
   }
 })
 
 const Login = () => {
+  const dispatch = useDispatch();
+  
   const classes = useStyles()
+
+  const [usuario, setUsuario] = useState("")
+  const [senha, setSenha] = useState("")
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+    const body = {
+      user_email: usuario,
+      password: senha
+    }
+
+    let response = await sessionUser('sessions', body);
+
+    if(response.data){
+      dispatch(loginUser(response.data))
+    }
+  }
 
   return (
     <Container className={classes.root}> 
       <Box className={classes.loginBox}>
+        <h3 className={classes.title}>Enter SandMail</h3>
         <img className={classes.logo} src={logoSandMail} alt='logo sand mail'/>
         <div className={classes.containerComponentsLogin}>
-          <TextField className={classes.input} variant="outlined" label="Usuário" />
-          <TextField className={classes.input} variant="outlined" label="Senha" />
-          <Button size="large" className={classes.buttonLogin} variant="contained" color="primary"> Entrar </Button>
+          <form onSubmit={ e => handleSubmit(e) }>
+            <TextField 
+              className={classes.input} 
+              variant="outlined" 
+              label="Usuário" 
+              name="usuario"
+              value={usuario}
+              onChange={ e => setUsuario(e.target.value)}  
+            />
+            <TextField 
+              className={classes.input} 
+              variant="outlined" 
+              label="Senha" 
+              name="senha"
+              value={senha}
+              onChange={ e => setSenha(e.target.value)}
+            />
+            <Button type='submit' size="large" className={classes.buttonLogin} variant="contained" color="primary"> Entrar </Button>
+          </form>
         </div>
       </Box>
     </Container>
