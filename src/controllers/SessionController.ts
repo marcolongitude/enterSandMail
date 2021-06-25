@@ -17,11 +17,15 @@ class SessionController {
       password: Yup.string().required(),
     });
 
-    if (!(await schema.isValid(req.body))){
+    if(!req.body.data){
+      req.body.data = req.body
+    }
+
+    if (!(await schema.isValid(req.body.data))){
       return res.status(400).json({error: 'Validation fails'});
     }
 
-    const { user_email, password } = req.body;
+    const { user_email, password } = req.body.data;
 
     const user = await prisma.users.findUnique({ where: { user_email } });
 
