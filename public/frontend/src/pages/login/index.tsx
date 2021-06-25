@@ -7,6 +7,7 @@ import logoSandMail from '../../assets/images/logo.png'
 import {useDispatch} from 'react-redux';
 import { loginUser } from '../../store/slices/userLogin/userLoginSlice'
 import { sessionUser } from '../../api'
+import { AxiosResponse } from 'axios'
 
 
 const useStyles = makeStyles({
@@ -56,6 +57,13 @@ const useStyles = makeStyles({
   }
 })
 
+interface IResponse {
+  status?: number;
+  error?: string;
+  message?: string;
+  data?: any;
+}     
+
 const Login = () => {
   const dispatch = useDispatch();
   
@@ -70,12 +78,20 @@ const Login = () => {
       user_email: usuario,
       password: senha
     }
+    
+    try{
+      let response: IResponse = await sessionUser('sessions', body);
 
-    let response = await sessionUser('sessions', body);
+      if(response.data){
+        dispatch(loginUser(response.data))
+      }else{
+        console.log(response.message, response.status)
+      }
 
-    if(response.data){
-      dispatch(loginUser(response.data))
+    }catch(e){
+      return e.message
     }
+
   }
 
   return (

@@ -9,39 +9,42 @@ type Tbody = {
   password: string;
 };
 
-export const sessionUser = async function (route: string, body: Tbody) {
+type Terror = {
+  status: string;
+  error: string;
+  message: string;
+};
+
+export const sessionUser = async function (route: string, body: Tbody): Promise<object> {
   try {
     const response = await api.post(route, {
       data: body,
     });
-
+    
     return response;
   } catch (err) {
-    type Terror = {
-      status: string;
-      error: string;
-      message: string;
-      data?: any;
-    };
 
     if (err.response.data.status === 401) {
+
       let error: Terror = {
         status: err.response.status,
         error: err,
-        message: 'Erro no sistema',
+        message: err.response.data.error
       };
+
       return error;
     }
 
     let error: Terror = {
       status: err.response.status,
       error: err,
-      message: 'Erro no sistema',
+      message: err.response.data.error
     };
     return error;
   }
 };
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   sessionUser,
 };
