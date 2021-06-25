@@ -3,7 +3,8 @@ import {AppDispatch} from '../..';
 
 export const initialState = {
   currentUser: '',
-  tokenData: '',
+  currentUserEmail: '',
+  token: '',
 };
 
 // Slice
@@ -15,15 +16,16 @@ const sliceUser = createSlice({
     setLoginUser(state, action: PayloadAction<string>) {
       let payload: any = action.payload;
 
-      state.currentUser = payload.user.user_email;
-      state.tokenData = payload.token;
+      state.currentUser = payload.user.user_name;
+      state.currentUserEmail = payload.user.user_email;
+      state.token = payload.token;
     },
     setCreateUser(state, action: PayloadAction<string>) {
       state.currentUser = action.payload;
     },
     logoutSuccess(state) {
       state.currentUser = '';
-      state.tokenData = '';
+      state.token = '';
     },
   },
 });
