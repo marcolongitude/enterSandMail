@@ -4,11 +4,6 @@ import userReduce from './slices/userLogin/userLoginSlice';
 
 const middlewares: any[] = [];
 
-if (__DEV__) {
-  const createDebugger = require('redux-flipper').default;
-  middlewares.push(createDebugger());
-}
-
 const store = configureStore({
   reducer: userReduce,
 
