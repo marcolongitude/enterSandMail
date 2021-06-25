@@ -11,6 +11,10 @@ const store = configureStore({
     getDefaultMiddleware().concat(middlewares),
 });
 
+store.subscribe(()=>{
+  localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+})
+
 //export types
 
 export type RootState = ReturnType<typeof store.getState>;
