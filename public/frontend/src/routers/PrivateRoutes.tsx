@@ -4,7 +4,14 @@ import { Redirect } from "react-router-dom";
 import { ROUTES } from "../constants";
 import PublicRoute from "./PublicRoutes";
 
-const PrivateRoute = (props: any) => {
+interface IProps {
+  component: React.FC,  
+  path: string,
+  exact: boolean,
+  isAutenticated: boolean
+}
+
+const PrivateRoute = (props: IProps) => {
   const { isAutenticated } = props;
 
   return (
