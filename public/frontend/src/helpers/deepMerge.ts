@@ -1,4 +1,4 @@
-export const deepMerge = (target: any, source: any) => {
+export const deepMerge = (target: any, source: { [x: string]: any; path?: string; exact?: boolean; }) => {
   for (let key of Object.keys(source)) {
     if (
       source[key] instanceof Object &&
