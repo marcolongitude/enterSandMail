@@ -64,10 +64,10 @@ interface IResponse {
   status?: number;
   error?: string;
   message?: string;
-  data?: any;
+  data?: object;
 }     
 
-export const Login = () => {
+export const Login = (): JSX.Element => {
 
   const dispatch = useDispatch();
   const classes = useStyles()
@@ -91,7 +91,7 @@ export const Login = () => {
     });
   };
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault(); 
     let response: IResponse = await sessionUser('sessions', formState); 
     
