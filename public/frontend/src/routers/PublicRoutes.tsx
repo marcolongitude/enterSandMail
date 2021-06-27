@@ -4,7 +4,13 @@ import { Route } from "react-router-dom";
 import { deepMerge } from "../helpers";
 import renderMergedProps from "./renderMergedProps";
 
-const PublicRoute = ({ component, ...rest }: any) => {
+interface IProps {
+  component: React.FC,  
+  path: string,
+  exact: boolean
+}
+
+const PublicRoute = ({ component, ...rest }: IProps) => {
   return (
     <Route
       {...rest}
