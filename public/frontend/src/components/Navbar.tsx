@@ -5,7 +5,7 @@ import { ROUTES } from "../constants";
 
 import { flowService } from "../helpers/flow";
 
-const NavBar = () => {
+const NavBar = (): JSX.Element => {
   const handleLogout = () => {
     localStorage.removeItem("reduxState"); 
     flowService.goTo(ROUTES.LOGIN); 
