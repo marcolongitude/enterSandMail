@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Container, TextField, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { colors } from '../../styles'
 import logoSandMail from '../../assets/images/logo.png' 
+
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
 
 import { Redirect } from "react-router-dom"
 import { ROUTES } from "../../constants"
@@ -70,15 +73,38 @@ interface IResponse {
   data?: object;
 }     
 
+interface IFormInputs {
+  user_email: string
+  password: string
+}
+
+const schema = yup.object().shape({
+  user_email: yup.string().email('Entre com um email válido').max(100).required('O campo email é obrigatório'),
+  password: yup.string().required('O campo senha é obrigatório').min(6, 'A senha deve ter mais de 6 dígitos')
+});
+
 export const Login = (): JSX.Element => {
 
   const dispatch = useDispatch();
   const classes = useStyles()
   const [isAuth, setIsAuth] = useState(false);
-  const [hasError, setHasError] = useState({ isError: false, message: ""}); 
-  const [formState, setFormState] = useState({ user_email: "", password: "" });
 
-  const [errorsState, setErrorsState] = useState({fields: {user_email: '', password: ''}, errors: {user_email: '', password: ''} })
+  const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
+    resolver: yupResolver(schema)
+  });
+
+  const onSubmit = async (data: IFormInputs) => {
+    let response: IResponse = await sessionUser('sessions', data); 
+
+    if(response.data){
+      dispatch(loginUser(response.data))
+    }else{
+      console.log(response.message, response.status)
+      return;
+    }
+  
+    flowService.goTo(ROUTES.HOME);
+  }
 
   useEffect(() => {
     const isAuth = localStorage.getItem("reduxState");
@@ -87,122 +113,31 @@ export const Login = (): JSX.Element => {
     }
   }, []);
 
-  const handleChange = (event: any) => {
-    const { name, value } = event.target; 
-
-    setFormState({
-      ...formState,
-      [name]: value 
-    });
-
-  };
-
-  const handleSubmit = async (event: { preventDefault: () => void }) => {
-    event.preventDefault(); 
-
-    if(handleValidation()){
-      let response: IResponse = await sessionUser('sessions', formState); 
-      
-      if(response.data){
-        dispatch(loginUser(response.data))
-      }else{
-        console.log(response.message, response.status)
-        setHasError({ isError: true, message: "Usuário ou senha inválidos"});
-        return;
-      }
-  
-      flowService.goTo(ROUTES.HOME);
-    }
-
-  };
-
-  const handleValidation = (): boolean => {
-    interface IErrors {
-      user_email: string;
-      password: string
-    }
-    interface IFields {
-      user_email: string;
-      password: string
-    }
-
-    let fields: IFields = formState;
-    let errors: IErrors = {user_email: '', password: ''};
-    let formIsValid = true;
-
-    //Name
-    if(!fields["password"]){
-      formIsValid = false;
-      errors["password"] = "Este campo é obrigatório";
-    }
-
-    //Email
-    if(typeof fields["user_email"] !== "undefined"){
-      let lastAtPos = fields["user_email"].lastIndexOf('@');
-      let lastDotPos = fields["user_email"].lastIndexOf('.');
-
-      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["user_email"].indexOf('@@') == -1 && lastDotPos > 2 && (fields["user_email"].length - lastDotPos) > 2)) {
-        formIsValid = false;
-        errors["user_email"] = "Digite um email válido";
-      }
-    }
-
-    if(!fields["user_email"]){
-      formIsValid = false;
-      errors["user_email"] = "Este campo é obrigatório";
-    }
-
-    setErrorsState({fields: {user_email: fields["user_email"], password: fields["password"]}, errors: errors});
-    return formIsValid;
-  }
-
   return (
-    <Container className={classes.root}> 
+    <div className={classes.root}> 
       {isAuth ? ( 
           <Redirect to={ROUTES.HOME} />
       ) : (
-        <Box className={classes.loginBox}>
+        <div className={classes.loginBox}>
           <h3 className={classes.title}>Enter SandMail</h3>
           <img className={classes.logo} src={logoSandMail} alt='logo sand mail'/>
           <div className={classes.containerComponentsLogin}>
-              {hasError.isError && <p>{ hasError.message }</p>}{" "}
-              <TextField 
-                error={hasError.isError}
-                required
-                id="standard-required"
-                className={classes.input} 
-                variant="outlined" 
-                label="E-mail" 
-                name="user_email"
-                onChange={ handleChange }  
-                value={formState["user_email"]}
-              />
-              <span className={classes.errorInput}>{errorsState.errors["user_email"]}</span>
-              <TextField 
-                error={hasError.isError}
-                required
-                type="password"
-                id="standard-required"
-                className={classes.input} 
-                variant="outlined" 
-                label="Senha" 
-                name="password"
-                onChange={ handleChange }
-                value={formState["password"]}
-              />
-              <span className={classes.errorInput}>{errorsState.errors["password"]}</span>
-              <Button 
-                onClick={ handleSubmit } 
-                //onClick={ () => {myRef.current.reportValidity()}} 
-                size="large" className={classes.buttonLogin} 
-                variant="contained" 
-                color="primary"
+              <form onSubmit={handleSubmit(onSubmit)}>
+              <input {...register("user_email")} />
+              <p>{errors.user_email?.message}</p>
+                
+              <input {...register("password")} />
+              <p>{errors.password?.message}</p>
+              <button 
+                type='submit'
+                className={classes.buttonLogin} 
                 > Entrar 
-              </Button>
+              </button>
+              </form>
           </div>
-        </Box>
+        </div>
       )}
-    </Container>
+    </div>
   )
 }
 
