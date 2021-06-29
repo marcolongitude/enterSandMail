@@ -43,16 +43,29 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '70%'
+  },  
   input: {
     width: '100%',
     minWidth: '80%',
     margin: '10px 0 10px 0',
-    backgroundColor: colors.backgroundInput
+    backgroundColor: colors.backgroundInput,
+    height: '30px',
+    borderRadius: '5px',
+    boxSizing: 'border-box',
+    padding: 10
   },
   buttonLogin: {
     // backgroundColor: colors.blueActive,
     margin: '15px 0 0 0',
-    width: '100%'
+    width: '100%',
+    height: '36px',
+    color: 'white',
+    backgroundColor: '#0077b6',
+    borderRadius: '6px',
   },
   logo: {
     height: 80,
@@ -62,7 +75,9 @@ const useStyles = makeStyles({
     paddingBottom: 10
   },
   errorInput: {
-    color: '#922a2a'
+    color: '#c40000',
+    fontSize: '14px',
+    marginTop: '-6px',
   }
 })
 
@@ -122,17 +137,17 @@ export const Login = (): JSX.Element => {
           <h3 className={classes.title}>Enter SandMail</h3>
           <img className={classes.logo} src={logoSandMail} alt='logo sand mail'/>
           <div className={classes.containerComponentsLogin}>
-              <form onSubmit={handleSubmit(onSubmit)}>
-              <input {...register("user_email")} />
-              <p>{errors.user_email?.message}</p>
+              <form className={classes.formContainer} onSubmit={handleSubmit(onSubmit)}>
+                <input className={classes.input} id="user_email" {...register("user_email")} placeholder="E-mail" />
+                {errors.user_email && <span className={classes.errorInput} >{errors.user_email?.message}</span>}
                 
-              <input {...register("password")} />
-              <p>{errors.password?.message}</p>
-              <button 
-                type='submit'
-                className={classes.buttonLogin} 
-                > Entrar 
-              </button>
+                <input className={classes.input} id="password" {...register("password")} placeholder="Senha" />
+                {errors.password && <span className={classes.errorInput} >{errors.password?.message}</span>}
+                <button 
+                  type='submit'
+                  className={classes.buttonLogin} 
+                  > Entrar 
+                </button>
               </form>
           </div>
         </div>
