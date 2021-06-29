@@ -56,6 +56,18 @@ const useStyles = makeStyles({
     height: '30px',
     borderRadius: '5px',
     boxSizing: 'border-box',
+    padding: 10,
+    border: '1px solid #ccc',
+  },
+  inputError: {
+    width: '100%',
+    minWidth: '80%',
+    margin: '10px 0 10px 0',
+    backgroundColor: colors.backgroundInput,
+    height: '30px',
+    border: '2px solid #c40000',
+    borderRadius: '5px',
+    boxSizing: 'border-box',
     padding: 10
   },
   buttonLogin: {
@@ -138,10 +150,10 @@ export const Login = (): JSX.Element => {
           <img className={classes.logo} src={logoSandMail} alt='logo sand mail'/>
           <div className={classes.containerComponentsLogin}>
               <form className={classes.formContainer} onSubmit={handleSubmit(onSubmit)}>
-                <input className={classes.input} id="user_email" {...register("user_email")} placeholder="E-mail" />
+                <input className={errors.user_email ? classes.inputError : classes.input} id="user_email" {...register("user_email")} placeholder="E-mail" />
                 {errors.user_email && <span className={classes.errorInput} >{errors.user_email?.message}</span>}
                 
-                <input className={classes.input} id="password" {...register("password")} placeholder="Senha" />
+                <input className={errors.password ? classes.inputError : classes.input} id="password" {...register("password")} placeholder="Senha" />
                 {errors.password && <span className={classes.errorInput} >{errors.password?.message}</span>}
                 <button 
                   type='submit'
