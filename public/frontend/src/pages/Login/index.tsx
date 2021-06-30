@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { makeStyles } from '@material-ui/styles'
-import { colors } from '../../styles'
 import { Container, LoginBox, LogoSandMailImg, Title, ContainerComponentsLogin, FormLogin, Input, TextError, ButtonSubmit } from './styles'
 import logoSandMail from '../../assets/images/logo.png' 
 

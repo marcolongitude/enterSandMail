@@ -51,7 +51,7 @@ export const FormLogin = styled.form`
 interface InputProps {
     error: boolean
 }
-export const Input = styled.input<InputProps>`
+export const Input = styled.input`
     width: 100%;
     min-width: 80%;
     margin: 10px 0 10px 0;
@@ -60,7 +60,16 @@ export const Input = styled.input<InputProps>`
     border-radius: 5px;
     box-sizing: border-box;
     padding: 10px;
-    border: ${(props) => props.error ? '1px solid red': `1px solid ${colors.blueActive}`};
+    border: ${(props: InputProps) => props.error ? '1px solid red': `1px solid ${colors.blueActive}`};
+    ::placeholder,
+    ::-webkit-input-placeholder {
+        color: ${colors.placeholder};
+        font-size: 15px;
+    }
+    :-ms-input-placeholder {
+        color: ${colors.placeholder};
+        font-size: 15px;
+    }
     &:focus {
         outline: none;
     }

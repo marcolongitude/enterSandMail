@@ -4,7 +4,7 @@ export const colors = {
 
   textTitle: '#ced4da',
   textErrorInput: '#b23a48',
-  placeholder: 'rgba(255, 255, 255, 0.8),',
+  placeholder: '#005583',
 
   backgroundInput: 'white',
   backgroundColorDefault: '#F3F4F7'
