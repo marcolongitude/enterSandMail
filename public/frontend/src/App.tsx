@@ -9,6 +9,7 @@ function App() {
     <Provider store={store}>
       <Router />
     </Provider>
+
   );
 }
 
