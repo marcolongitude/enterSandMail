@@ -78,6 +78,9 @@ export const ButtonSubmit = styled.button`
     width: 100%;
     height: 46px;
     color: white;
-    /* background-color: #0077b6; */
+    border: none;
     border-radius: 6px;
+    &:hover {
+        background-color: ${colors.blueHoverButton};
+    }
 `;
