@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import styled from 'styled-components'
+import styled, { keyframes } from "styled-components";
 import { colors } from '../../styles'
 
 export const Container = styled.div`
@@ -84,6 +84,9 @@ export const TextError = styled.span`
 `;
 
 export const ButtonSubmit = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: ${colors.blueActive};
     margin: 15px 0 0 0;
     width: 100%;
@@ -94,4 +97,27 @@ export const ButtonSubmit = styled.button`
     &:hover {
         background-color: ${colors.blueHoverButton};
     }
+`;
+
+interface DotProps {
+    delay: string
+}
+const BounceAnimation = keyframes`
+  0% { margin-bottom: 0; }
+  50% { margin-bottom: 15px }
+  100% { margin-bottom: 0 }
+`;
+export const DotWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+`;
+export const Dot = styled.div`
+  background-color: white;
+  border-radius: 50%;
+  width: 6px;
+  height: 6px;
+  margin: 0 5px;
+  /* Animation */
+  animation: ${BounceAnimation} 0.5s linear infinite;
+  animation-delay: ${(props: DotProps) => props.delay};
 `;
