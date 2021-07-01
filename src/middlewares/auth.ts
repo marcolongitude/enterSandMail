@@ -13,16 +13,18 @@ export default (permission: string)=> {
     }
 
     return async(req: Request, res: Response, next: NextFunction) => {
-
-        const token: any = req.headers.token;
-
-        if (!token) {
+        const authHeader: any = req.headers.authorization;
+        
+        if (!authHeader) {
             return res.status(401).json({ error: "Token not provided" });
         }
 
-        try {
-            const decoded: any = jwt.verify(token, authConfig.secret);
+        const [, token] = authHeader.split(":")
+        const autorization: string = token.replace('}', '')
+        const tokenJwt = autorization.slice(0, -1).replace('"', '');
 
+        try {
+            const decoded: any = jwt.verify(tokenJwt, authConfig.secret);
             const user: any = await userModel.getUser.v1(decoded.id_user);
            
             if(!user){
