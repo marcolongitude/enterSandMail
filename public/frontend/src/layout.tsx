@@ -13,11 +13,11 @@ const Layout = (props: { children: boolean | React.ReactChild | React.ReactFragm
   }, []);
 
   return (
-    <div>
+    <>
       <GlobalStyle />
       {isAuth && <Navbar />}
       <div>{props.children}</div>
-    </div>
+    </>
   );
 };
 
