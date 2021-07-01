@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Container, LoginBox, LogoSandMailImg, Title, ContainerComponentsLogin, FormLogin, Input, TextError, ButtonSubmit } from './styles'
+import { Container, LoginBox, LogoSandMailImg, Title, ContainerComponentsLogin, FormLogin, Input, TextError, ButtonSubmit, DotWrapper, Dot } from './styles'
 import logoSandMail from '../../assets/images/logo.png' 
 
 import { useForm } from "react-hook-form";
@@ -13,6 +13,9 @@ import { flowService } from "../../helpers/flow"
 import {useDispatch} from 'react-redux'
 import { loginUser } from '../../store/slices/userLogin/userLoginSlice'
 import { sessionUser } from '../../api'
+
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.min.css";
 
 
 interface IResponse {
@@ -36,21 +39,41 @@ export const Login = (): JSX.Element => {
 
   const dispatch = useDispatch();
   const [isAuth, setIsAuth] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
     resolver: yupResolver(schema)
   });
 
   const onSubmit = async (data: IFormInputs) => {
+    setLoader(true)
     let response: IResponse = await sessionUser('sessions', data); 
 
     if(!response.data){
       console.log(response.message, response.status)
+      toast.error(` ${response.status} : ${response.message} `, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+      setLoader(false)
       return;
     }
-    
-    dispatch(loginUser(response.data))
-    flowService.goTo(ROUTES.HOME);
+    toast.success(` ${response.status} : Login realizado com sucesso`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+    });
+    setTimeout(() => {
+      dispatch(loginUser(response.data))
+      flowService.goTo(ROUTES.HOME);
+      setLoader(false)
+    }, 3000);
+
   }
 
   useEffect(() => {
@@ -66,7 +89,8 @@ export const Login = (): JSX.Element => {
           <Redirect to={ROUTES.HOME} />
       ) : (
         <LoginBox >
-          <Title >Enter SandMail</Title>
+          <ToastContainer />
+          <Title >Enter Sand Email</Title>
           <LogoSandMailImg src={logoSandMail} alt='logo sand mail'/>
           <ContainerComponentsLogin >
               <FormLogin onSubmit={handleSubmit(onSubmit)}>
@@ -75,7 +99,17 @@ export const Login = (): JSX.Element => {
                 
                 <Input error={errors.password ? true : false} id="password" {...register("password")} placeholder="Senha" />
                 {errors.password && <TextError >{errors.password?.message}</TextError>}
-                <ButtonSubmit type='submit'> Entrar</ButtonSubmit>
+                <ButtonSubmit type='submit'> 
+                  {loader ?(
+                    <DotWrapper>
+                      <Dot delay="0s" />
+                      <Dot delay=".1s" />
+                      <Dot delay=".2s" />
+                    </DotWrapper>
+                  ): (
+                    <span>Entrar</span>
+                  )}
+                </ButtonSubmit>
               </FormLogin>
           </ContainerComponentsLogin>
         </LoginBox>
