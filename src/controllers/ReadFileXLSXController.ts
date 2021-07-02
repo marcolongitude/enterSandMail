@@ -21,7 +21,7 @@ const upload = multer({
   limits: { fileSize: maxSize },
   fileFilter: function (req, file: Express.Multer.File, cb: (error?: any, info?: Partial<Express.Multer.File> | boolean) => void
   ): void{
-    const filetypes = /xlsx|xls|csv/;
+    const filetypes = /xlsx|xls|csv|sheet|openxmlformats|spreadsheetml/;
     const mimetype = filetypes.test(file.mimetype);
     const extname = path.extname(file.originalname).toLowerCase();
     
@@ -38,7 +38,7 @@ class ReadFileXLSXReadController{
     try {
       upload(req,res,function(err) {
         if(err) {
-          res.status(500).json({error: err})
+          return res.status(500).json({error: err, message: 'erro de tipo de arquivo'})
         }
         const response = readFileXLS( pathRoot.path + '/uploads/dadosUsina.xlsx')
         return res.status(200).json({data: response, message: 'Arquivo carregado com sucesso', status: 200})
