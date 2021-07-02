@@ -4,7 +4,7 @@ const api = axios.create({
   timeout: 5000,
 });
 
-type Tbody = {
+type TSessionUser = {
   user_email: string;
   password: string;
 };
@@ -15,7 +15,11 @@ type Terror = {
   message: string;
 };
 
-export const sessionUser = async function (route: string, body: Tbody): Promise<object> {
+type TFileUpload = {
+  formData: object
+}
+
+export const sessionUser = async function (route: string, body: TSessionUser): Promise<object> {
   try {
     const response = await api.post(route, {
       data: body,
@@ -25,7 +29,6 @@ export const sessionUser = async function (route: string, body: Tbody): Promise<
   } catch (err) {
 
     if (err.response.data.status === 401) {
-
       let error: Terror = {
         status: err.response.status,
         error: err,
@@ -44,7 +47,25 @@ export const sessionUser = async function (route: string, body: Tbody): Promise<
   }
 };
 
+export const fileUpload = async function (route: string, body: TFileUpload, token: string) {
+  try {
+    const response = await api.post(route, {
+      data: body
+    }, {
+      headers: {
+        'Authorization': token
+      }
+    })
+
+    return response;
+  } catch (err) {
+
+    console.log(err)
+  }
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   sessionUser,
+  fileUpload
 };
