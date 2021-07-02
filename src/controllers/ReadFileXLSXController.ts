@@ -21,9 +21,10 @@ const upload = multer({
   limits: { fileSize: maxSize },
   fileFilter: function (req, file: Express.Multer.File, cb: (error?: any, info?: Partial<Express.Multer.File> | boolean) => void
   ): void{
-    const filetypes = /|xlsx|/;
+    const filetypes = /xlsx|xls|csv/;
     const mimetype = filetypes.test(file.mimetype);
     const extname = path.extname(file.originalname).toLowerCase();
+    
     if (mimetype && extname) {
       return cb(null, true);
     }
