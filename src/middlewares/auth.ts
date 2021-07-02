@@ -19,13 +19,12 @@ export default (permission: string)=> {
             return res.status(401).json({ error: "Token not provided" });
         }
 
-        const [, token] = authHeader.split(":")
-        const autorization: string = token.replace('}', '')
-        const tokenJwt = autorization.slice(0, -1).replace('"', '');
+        const authHeaderJson: {token: string} = JSON.parse(authHeader)
+        const tokenJwt: string = authHeaderJson.token
 
         try {
             const decoded: any = jwt.verify(tokenJwt, authConfig.secret);
-            const user: any = await userModel.getUser.v1(decoded.id_user);
+            const user = await userModel.getUser.v1(decoded.id_user);
            
             if(!user){
                 throw new Error('User not found');
