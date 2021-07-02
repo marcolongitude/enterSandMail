@@ -21,10 +21,10 @@ const sliceUser = createSlice({
       state.token = payload.token;
     },
     setCreateUser(state, action: PayloadAction<string>) {
-      state.currentUser = action.payload;
+      // state.currentUser = action.payload;
     },
     logoutSuccess(state) {
-      state.currentUser = '';
+      // state.currentUser = '';
       state.token = '';
     },
   },
