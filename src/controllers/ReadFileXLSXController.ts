@@ -3,6 +3,7 @@ import {readFileXLS} from '../util/readFileXLS';
 
 import multer from 'multer'
 import path from 'path'
+import pathRoot from '../../config'
 
 const maxSize = 100 * 1000 * 1000;
 
@@ -18,7 +19,8 @@ const storage = multer.diskStorage({
 const upload = multer({ 
   storage: storage,
   limits: { fileSize: maxSize },
-  fileFilter: function (req, file, cb: any){
+  fileFilter: function (req, file: Express.Multer.File, cb: (error?: any, info?: Partial<Express.Multer.File> | boolean) => void
+  ): void{
     const filetypes = /|xlsx|/;
     const mimetype = filetypes.test(file.mimetype);
     const extname = path.extname(file.originalname).toLowerCase();
@@ -32,18 +34,17 @@ const upload = multer({
 
 class ReadFileXLSXReadController{
   async ReadFileXLSX(req: Request, res: Response){
-
     try {
-      upload(req,res,function(err: any) {
+      upload(req,res,function(err) {
         if(err) {
           res.status(500).json({error: err})
         }
-        const response = readFileXLS('/home/marco/Documentos/myProjects/enterSandMail/uploads/dadosUsina.xlsx')
-        return res.status(200).json({data: response, message: 'Arquivo carregado com sucesso'})
+        const response = readFileXLS( pathRoot.path + '/uploads/dadosUsina.xlsx')
+        return res.status(200).json({data: response, message: 'Arquivo carregado com sucesso', status: 200})
       })
-      
     } catch (error) {
       console.log(error)
+      return res.status(500).json({error: 'Error ao ler o arquivo xlsx'})
     }
   }
 }
