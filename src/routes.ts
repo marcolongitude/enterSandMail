@@ -6,7 +6,6 @@ import ReadFileXLSXController from './controllers/ReadFileXLSXController';
 
 import AuthMiddleware from './middlewares/auth';
 
-
 const routes = Router();
 
 routes.get('/', (req: Request, res: Response) => {
@@ -24,7 +23,7 @@ routes.get('/users/:email', AuthMiddleware('sa'), userController.getByEmail);
 routes.put('/users/:id', AuthMiddleware('sa'), userController.update);
 
 //Routes read file xlsx
-routes.post('/readfilexlsx', AuthMiddleware('sac'), ReadFileXLSXController.readFileXLSX);
+routes.post('/readfilexlsx', AuthMiddleware('sa'), ReadFileXLSXController.ReadFileXLSX);
 
 
 export default routes;
