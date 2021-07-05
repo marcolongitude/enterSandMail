@@ -7,7 +7,6 @@ import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosResponse } from "axios";
 
-const FILE_SIZE = 1600000000000 * 1024;
 const SUPPORTED_FORMATS = [
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 ]
@@ -15,8 +14,8 @@ const SUPPORTED_FORMATS = [
 const schema = yup.object().shape({
   fileXLSX: yup
     .mixed()
-    .required("A file is required")
-    .test('fileFormat', 'PDF only', (value) => {
+    .required("Carregue um arquivo")
+    .test('fileFormat', 'Carregue um arquivo xlsx', (value) => {
       console.log(value[0].type); return value && SUPPORTED_FORMATS.includes(value[0].type);
     }),
 });
@@ -33,7 +32,6 @@ export const Home = (): JSX.Element => {
   })
 
   const onSubmit = async(data: any) => {
-    console.log(data)
     const formData: any = new FormData()
     const token: any = localStorage.getItem('reduxState')
 
@@ -43,7 +41,13 @@ export const Home = (): JSX.Element => {
     if(!res)
       alert('erro')
 
-    alert(res?.data.message)
+    const response = res?.data.data.map((item: any) => {
+      return item.Nome + ': ' + item.Email + '\n'
+    })
+
+    console.log(response)
+
+    alert(response)
 
   }
 
