@@ -4,39 +4,23 @@ import { Container, BoxOption, TitleBoxOption, TextBoxOption, AreaDragFile, Butt
 import XLSX from 'xlsx'
 
 import { dataContactsUpload } from '../../api'
-// import { useForm } from 'react-hook-form'
-// import * as yup from "yup";
-// import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosResponse } from "axios";
 
 const SUPPORTED_FORMATS = [
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 ]
 
-// const schema = yup.object().shape({
-//   fileXLSX: yup
-//     .mixed()
-//     .required("Carregue um arquivo")
-//     .test('fileFormat', 'Carregue um arquivo xlsx', (value) => {
-//       console.log(value[0].type); return value && SUPPORTED_FORMATS.includes(value[0].type);
-//     }),
-// });
-
-
-
 export const Home = (): JSX.Element => {
   
   const [isValidateForm, setIsValidateForm] = useState(false)
+  const [dataContacts, setDataContacts] = useState([])
 
   const validateForm = async (value: any) => {
-    const isValidate: boolean = value.includes(SUPPORTED_FORMATS)
+    const valid: boolean = value.includes(SUPPORTED_FORMATS)
 
-    setIsValidateForm(!isValidate)
-    return !isValidate
+    setIsValidateForm(valid)
+    return valid
   }
-
-
-  const [dataContacts, setDataContacts] = useState([])
 
   const onChangeFile = (e: any) => {
     e.preventDefault();
@@ -44,7 +28,6 @@ export const Home = (): JSX.Element => {
     var files = e.target.files, f = files[0];
 
     if(!validateForm(e.target.files[0].type)){
-
       return 
     }
 
@@ -67,6 +50,10 @@ export const Home = (): JSX.Element => {
   const onSubmit = async (e: any) => 
   {
     e.preventDefault()
+
+    if(!isValidateForm){
+      return 
+    }
 
     const token: any = localStorage.getItem('reduxState')
     const res: AxiosResponse<any> | undefined = await dataContactsUpload('/readfilexlsx', dataContacts, token)
@@ -91,7 +78,7 @@ export const Home = (): JSX.Element => {
             <form onSubmit={onSubmit}>
               {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
               <input onChange={onChangeFile} type="file" name="fileXLSX" required />
-              {isValidateForm && <span>Tipo de arquivo não suportado</span>}
+              {!isValidateForm && <span>Tipo de arquivo não suportado</span>}
               <ButtonSubmit type="submit">Selecione um arquivo para carregar</ButtonSubmit>
             </form>
           </AreaDragFile>
