@@ -9,9 +9,9 @@ import { dataContactsUpload } from '../../api'
 // import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosResponse } from "axios";
 
-// const SUPPORTED_FORMATS = [
-//   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-// ]
+const SUPPORTED_FORMATS = [
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+]
 
 // const schema = yup.object().shape({
 //   fileXLSX: yup
@@ -23,7 +23,18 @@ import { AxiosResponse } from "axios";
 // });
 
 
+
 export const Home = (): JSX.Element => {
+  
+  const [isValidateForm, setIsValidateForm] = useState(false)
+
+  const validateForm = async (value: any) => {
+    const isValidate: boolean = value.includes(SUPPORTED_FORMATS)
+
+    setIsValidateForm(!isValidate)
+    return !isValidate
+  }
+
 
   const [dataContacts, setDataContacts] = useState([])
 
@@ -31,6 +42,12 @@ export const Home = (): JSX.Element => {
     e.preventDefault();
 
     var files = e.target.files, f = files[0];
+
+    if(!validateForm(e.target.files[0].type)){
+
+      return 
+    }
+
     var reader = new FileReader();
 
     reader.onload = function (e) {
@@ -73,7 +90,8 @@ export const Home = (): JSX.Element => {
           <AreaDragFile>
             <form onSubmit={onSubmit}>
               {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
-              <input onChange={onChangeFile} type="file" name="fileXLSX" required/>
+              <input onChange={onChangeFile} type="file" name="fileXLSX" required />
+              {isValidateForm && <span>Tipo de arquivo não suportado</span>}
               <ButtonSubmit type="submit">Selecione um arquivo para carregar</ButtonSubmit>
             </form>
           </AreaDragFile>
