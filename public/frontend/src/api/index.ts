@@ -15,10 +15,6 @@ type Terror = {
   message: string;
 };
 
-type TFileUpload = {
-  formData: object
-}
-
 export const sessionUser = async function (route: string, body: TSessionUser): Promise<object> {
   try {
     const response = await api.post(route, {
@@ -47,7 +43,7 @@ export const sessionUser = async function (route: string, body: TSessionUser): P
   }
 };
 
-export const fileUpload = async function (route: string, body: TFileUpload, token: string) {
+export const dataContactsUpload = async function (route: string, body: Array<object>, token: string) {
   try {
     const response = await api.post(route, {
       data: body
@@ -59,7 +55,7 @@ export const fileUpload = async function (route: string, body: TFileUpload, toke
 
     return response;
   } catch (err) {
-
+    //TODO: tratar erros
     console.log(err)
   }
 };
@@ -67,5 +63,5 @@ export const fileUpload = async function (route: string, body: TFileUpload, toke
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   sessionUser,
-  fileUpload
+  dataContactsUpload
 };
