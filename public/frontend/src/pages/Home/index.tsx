@@ -3,7 +3,7 @@ import { Container, BoxOption, TitleBoxOption, TextBoxOption, AreaDragFile, Butt
 
 import XLSX from 'xlsx'
 
-import { fileUpload } from '../../api'
+import { dataContactsUpload } from '../../api'
 // import { useForm } from 'react-hook-form'
 // import * as yup from "yup";
 // import { yupResolver } from '@hookform/resolvers/yup';
@@ -23,35 +23,7 @@ import { AxiosResponse } from "axios";
 // });
 
 
-// interface IFormInputs {
-//   fileXLSX: any
-// }
-
 export const Home = (): JSX.Element => {
-
-  // const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
-  //   resolver: yupResolver(schema)
-  // })
-
-  // const onSubmit = async(data: any) => {
-  //   const formData: any = new FormData()
-  //   const token: any = localStorage.getItem('reduxState')
-
-  //   formData.append('fileXLSX', data.fileXLSX[0])
-  //   const res: AxiosResponse<any> | undefined = await fileUpload('/readfilexlsx', formData, token)
-
-  //   if(!res)
-  //     alert('erro')
-
-  //   const response = res?.data.data.map((item: any) => {
-  //     return item.Nome + ': ' + item.Email + '\n'
-  //   })
-
-  //   console.log(response)
-
-  //   alert(response)
-
-  // }
 
   const [dataContacts, setDataContacts] = useState([])
 
@@ -80,7 +52,7 @@ export const Home = (): JSX.Element => {
     e.preventDefault()
 
     const token: any = localStorage.getItem('reduxState')
-    const res: AxiosResponse<any> | undefined = await fileUpload('/readfilexlsx', dataContacts, token)
+    const res: AxiosResponse<any> | undefined = await dataContactsUpload('/readfilexlsx', dataContacts, token)
     
     res?.data.data.forEach((item: any) => {
       console.log({
