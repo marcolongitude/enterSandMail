@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Switch, BrowserRouter } from "react-router-dom";
 import Layout from "./layout";
 import { Login } from "./pages";
-import { Home } from "./pages";
+import  { Home }  from "./pages";
 import { ROUTES } from "./constants";
 
 /* Import Custom Routes */
