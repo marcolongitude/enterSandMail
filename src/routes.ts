@@ -2,7 +2,8 @@ import { Request, Response, Router } from 'express';
 import userController from './controllers/UserController';
 import sessionController from './controllers/SessionController';
 
-import ReadFileXLSXController from './controllers/ReadFileXLSXController';
+// import ReadFileXLSXController from './controllers/ReadFileXLSXController';
+import DataContactController from './controllers/DataContactController'
 
 import AuthMiddleware from './middlewares/auth';
 
@@ -23,7 +24,8 @@ routes.get('/users/:email', AuthMiddleware('sa'), userController.getByEmail);
 routes.put('/users/:id', AuthMiddleware('sa'), userController.update);
 
 //Routes read file xlsx
-routes.post('/readfilexlsx', AuthMiddleware('sa'), ReadFileXLSXController.ReadFileXLSX);
+// routes.post('/readfilexlsx', AuthMiddleware('sa'), ReadFileXLSXController.ReadFileXLSX);
+routes.post('/readfilexlsx', AuthMiddleware('sa'), DataContactController.DataContacts);
 
 
 export default routes;
