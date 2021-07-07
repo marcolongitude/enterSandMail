@@ -3,7 +3,7 @@ import userController from './controllers/UserController';
 import sessionController from './controllers/SessionController';
 
 // import ReadFileXLSXController from './controllers/ReadFileXLSXController';
-import DataContactController from './controllers/DataContactController'
+import SaveContactsController from './controllers/SaveContactsController'
 
 import AuthMiddleware from './middlewares/auth';
 
@@ -25,7 +25,7 @@ routes.put('/users/:id', AuthMiddleware('sa'), userController.update);
 
 //Routes read file xlsx
 // routes.post('/readfilexlsx', AuthMiddleware('sa'), ReadFileXLSXController.ReadFileXLSX);
-routes.post('/readfilexlsx', AuthMiddleware('sa'), DataContactController.DataContacts);
+routes.post('/readfilexlsx', AuthMiddleware('sa'), SaveContactsController.SaveContacts);
 
 
 export default routes;
