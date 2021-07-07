@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, BoxOption, TitleBoxOption, TextBoxOption, AreaDragFile, ButtonSubmit, Title } from './styles'
+import { Container, BoxOption, TitleBoxOption, TextBoxOption, AreaDragFile, ButtonSubmit, ButtonFileUpload, ErrorFileNotSuported } from './styles'
 
 import XLSX from 'xlsx'
 
@@ -72,13 +72,13 @@ export const Home = (): JSX.Element => {
       {/* <Title>Escolha uma opção</Title> */}
       <BoxOption>
         <TitleBoxOption>
-          Carregar arquivo excel xlsx
+          Carregar arquivo excel 
         </TitleBoxOption>
           <AreaDragFile>
             <form onSubmit={onSubmit}>
               {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
-              <input onChange={onChangeFile} type="file" name="fileXLSX" required />
-              {!isValidateForm && <span>Tipo de arquivo não suportado</span>}
+              <ButtonFileUpload onChange={onChangeFile} type="file" name="fileXLSX" />
+              {!isValidateForm && <ErrorFileNotSuported>Tipo de arquivo não suportado</ErrorFileNotSuported>}
               <ButtonSubmit type="submit">Selecione um arquivo para carregar</ButtonSubmit>
             </form>
           </AreaDragFile>

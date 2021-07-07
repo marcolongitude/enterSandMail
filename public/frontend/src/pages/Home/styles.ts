@@ -44,7 +44,7 @@ export const ButtonSubmit = styled.button`
     background-color: ${colors.blueActive};
     cursor: pointer;
     margin: 15px 0 0 0;
-    width: 80%;
+    width: 100%;
     height: 46px;
     color: white;
     border: none;
@@ -60,4 +60,37 @@ export const TitleBoxOption = styled.h2`
 
 export const TextBoxOption = styled.h4`
   color: ${colors.blueHoverButton}
+`;
+
+export const ButtonFileUpload = styled.input`
+    color: transparent;
+    &::-webkit-file-upload-button {
+        visibility: hidden;
+    }
+    &:before {
+      content: 'Carregar arquivo excel';
+      color: black;
+      display: inline-block;
+      width: 50%;
+      background: linear-gradient(top, #f9f9f9, #e3e3e3);
+      border: 1px solid #999;
+      border-radius: 3px;
+      padding: 5px 8px;
+      outline: none;
+      white-space: nowrap;
+      cursor: pointer;
+      text-shadow: 1px 1px #fff;
+      font-weight: 700;
+      font-size: 10pt;
+    }
+    &:hover:before {
+      border-color: black;
+    }
+    &:active:before {
+      background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+    }
+`;
+
+export const ErrorFileNotSuported = styled.p`
+    margin: 50px 0 15px 0;
 `;

@@ -7,5 +7,5 @@ export const colors = {
   placeholder: '#005583',
 
   backgroundInput: 'white',
-  backgroundColorDefault: '#F3F4F7'
+  backgroundColorDefault: '#fbfbfb' 
 };
