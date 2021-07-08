@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import NavBurger from './NavBurger';
 import { NavMenu } from './styles'
 
