@@ -58,12 +58,9 @@ export const Home = (): JSX.Element => {
     const token: any = localStorage.getItem('reduxState')
     const res: AxiosResponse<any> | undefined = await dataContactsUpload('/readfilexlsx', dataContacts, token)
     
-    res?.data.data.forEach((item: any) => {
-      console.log({
-        name: item.name,
-        email: item.email
-      })
-    })
+    console.log(res)
+
+    alert(res?.data.message)
 
   }
 
@@ -74,14 +71,14 @@ export const Home = (): JSX.Element => {
         <TitleBoxOption>
           Carregar arquivo excel 
         </TitleBoxOption>
-          <AreaDragFile>
-            <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit}>
+            <AreaDragFile>
               {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
               <ButtonFileUpload onChange={onChangeFile} type="file" name="fileXLSX" />
               {!isValidateForm && <ErrorFileNotSuported>Tipo de arquivo não suportado</ErrorFileNotSuported>}
-              <ButtonSubmit type="submit">Selecione um arquivo para carregar</ButtonSubmit>
-            </form>
-          </AreaDragFile>
+            </AreaDragFile>
+            <ButtonSubmit type="submit">Selecione um arquivo para carregar</ButtonSubmit>
+          </form>
       </BoxOption>
       <BoxOption>
         <TitleBoxOption>

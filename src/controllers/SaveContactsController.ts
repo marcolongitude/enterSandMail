@@ -12,8 +12,8 @@ class SaveContactsController {
       }
     });
 
-    const response = await contactsModel.saveContacts.v1(contacts);
-    return res.status(200).json({message: 'Contatos salvos com sucesso', data: response})
+    const { count } = await contactsModel.saveContacts.v1(contacts);
+    return res.status(200).json({message: 'Contatos salvos com sucesso', data: count})
   }
 }
 

@@ -1,39 +1,19 @@
-import React from "react";
+import React from 'react';
+import styled from 'styled-components';
+import NavBurger from './NavBurger';
+import { NavMenu } from './styles'
 
-import { Link } from "react-router-dom";
-import { ROUTES } from "../../constants";
 
-import { flowService } from "../../helpers/flow";
-
-import { Container, UlMenu, LiMenu, LinkRedirect } from './styles'
-
-const NavBar = (): JSX.Element => {
-  const handleLogout = () => {
-    localStorage.removeItem("reduxState"); 
-    flowService.goTo(ROUTES.LOGIN); 
-  };
-
+const Navbar = () => {
   return (
-    <Container>
-      <span>EnterSandMail</span>
-      <UlMenu>
-        <LiMenu>
-          <LinkRedirect to={ROUTES.HOME}>Home</LinkRedirect>
-        </LiMenu>
-        <LiMenu>
-          <LinkRedirect to={ROUTES.ABOUT}>About</LinkRedirect>
-        </LiMenu>
-        <LiMenu>
-          <LinkRedirect to={ROUTES.CONTACT}>Criar usuário</LinkRedirect>
-        </LiMenu>
-        <LiMenu>
-          <a href="/" onClick={handleLogout}>
-            Logout
-          </a>
-        </LiMenu>
-      </UlMenu>
-    </Container>
-  );
-};
+    <NavMenu>
+      <div className="logo">
+        Enter SandMail
+      </div>
+      <NavBurger />
+    </NavMenu>
+  )
+}
 
-export default NavBar;
+
+export default Navbar;
