@@ -3,10 +3,17 @@ import { colors } from '../../styles'
 
 export const Container = styled.section`
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
   width: 100%;
   height: 100vh;
+  margin: 20px;
+`;
+
+export const NavOption = styled.nav`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
 `;
 
 export const Title = styled.h1`
@@ -16,6 +23,7 @@ export const Title = styled.h1`
 export const BoxOption = styled.div`
   margin: 50px;
   width: 30%;
+  min-width: 300px;
   height: 390px;
   border-radius: 10px;
   background-color: ${colors.backgroundColorDefault};
@@ -23,13 +31,13 @@ export const BoxOption = styled.div`
   box-shadow: 3px 5px 11px -5px #000000;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
 `;
 
 export const AreaDragFile = styled.div`
-    width: 80%;
-    height: 60%;
+    width: 90%;
+    height: 83%;
     border: 1px dashed #8b8b8b;
     text-align: center;
     display: flex;
@@ -38,13 +46,18 @@ export const AreaDragFile = styled.div`
     align-items: center;
     cursor: pointer;
     border-radius: 10px;
-    margin: 25px;
+    margin-bottom: 25px;
 `;
+
+export const Form = styled.form`
+  width: 100%;
+`;
+
 export const ButtonSubmit = styled.button`
     background-color: ${colors.blueActive};
     cursor: pointer;
     margin: 15px 0 0 0;
-    width: 100%;
+    width: 90%;
     height: 46px;
     color: white;
     border: none;
@@ -68,6 +81,7 @@ export const ButtonFileUpload = styled.input`
         visibility: hidden;
     }
     &:before {
+      margin-left: 60px;
       content: 'Carregar arquivo excel';
       color: black;
       display: inline-block;

@@ -1,5 +1,16 @@
 import React, { useState } from "react";
-import { Container, BoxOption, TitleBoxOption, TextBoxOption, AreaDragFile, ButtonSubmit, ButtonFileUpload, ErrorFileNotSuported } from './styles'
+import { 
+  Container, 
+  BoxOption, 
+  TitleBoxOption, 
+  TextBoxOption, 
+  AreaDragFile, 
+  ButtonSubmit, 
+  ButtonFileUpload, 
+  ErrorFileNotSuported,
+  Title,
+  NavOption,
+  Form } from './styles'
 
 import XLSX from 'xlsx'
 
@@ -66,31 +77,34 @@ export const Home = (): JSX.Element => {
 
   return (
     <Container>
-      {/* <Title>Escolha uma opção</Title> */}
-      <BoxOption>
-        <TitleBoxOption>
-          Carregar arquivo excel 
-        </TitleBoxOption>
-          <form onSubmit={onSubmit}>
+      <Title>Escolha uma opção</Title>
+      <NavOption>
+        <BoxOption>
+          <TitleBoxOption>
+            Carregar arquivo excel 
+          </TitleBoxOption>
             <AreaDragFile>
-              {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
-              <ButtonFileUpload onChange={onChangeFile} type="file" name="fileXLSX" />
-              {!isValidateForm && <ErrorFileNotSuported>Tipo de arquivo não suportado</ErrorFileNotSuported>}
+              <Form onSubmit={onSubmit}>
+                {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
+                <ButtonFileUpload onChange={onChangeFile} type="file" name="fileXLSX" />
+                {!isValidateForm && <ErrorFileNotSuported>Tipo de arquivo não suportado</ErrorFileNotSuported>}
+                <ButtonSubmit type="submit">Selecione um arquivo para carregar</ButtonSubmit>
+              </Form>
             </AreaDragFile>
-            <ButtonSubmit type="submit">Selecione um arquivo para carregar</ButtonSubmit>
-          </form>
-      </BoxOption>
-      <BoxOption>
-        <TitleBoxOption>
-            Carregar dados em banco
-        </TitleBoxOption>
-        <AreaDragFile>
-          <TextBoxOption>
-            Dados salvos no banco de dados
-          </TextBoxOption>
-          <ButtonSubmit type="submit">Carregar dados</ButtonSubmit>
-        </AreaDragFile>
-      </BoxOption>
+        </BoxOption>
+
+        <BoxOption>
+          <TitleBoxOption>
+            Carregar do banco 
+          </TitleBoxOption>
+            <AreaDragFile>
+              <Form >
+                {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
+                <ButtonSubmit type="submit">Carregar do banco</ButtonSubmit>
+              </Form>
+            </AreaDragFile>
+        </BoxOption>
+      </NavOption>
     </Container>
   )
 }
