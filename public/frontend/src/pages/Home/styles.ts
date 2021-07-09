@@ -7,7 +7,6 @@ export const Container = styled.section`
   justify-content: space-evenly;
   width: 100%;
   height: 100vh;
-  margin: 20px;
 `;
 
 export const NavOption = styled.nav`
@@ -17,7 +16,8 @@ export const NavOption = styled.nav`
 `;
 
 export const Title = styled.h1`
-  color: ${colors.blueActive}
+  color: ${colors.blueActive};
+  text-align: center;
 `;
 
 export const BoxOption = styled.div`

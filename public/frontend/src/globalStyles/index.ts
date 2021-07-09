@@ -21,6 +21,10 @@ const GlobalStyle = createGlobalStyle`
       color: white
     }
   }
+
+  body > #root {
+    position: relative
+  }
 `;
  
 export default GlobalStyle;
