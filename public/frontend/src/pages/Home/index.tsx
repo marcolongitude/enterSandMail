@@ -3,7 +3,6 @@ import {
   Container, 
   BoxOption, 
   TitleBoxOption, 
-  TextBoxOption, 
   AreaDragFile, 
   ButtonSubmit, 
   ButtonFileUpload, 
@@ -17,6 +16,8 @@ import XLSX from 'xlsx'
 import { dataContactsUpload } from '../../api'
 import { AxiosResponse } from "axios";
 
+import Loading from '../../components/Loading'
+
 const SUPPORTED_FORMATS = [
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 ]
@@ -25,6 +26,7 @@ export const Home = (): JSX.Element => {
   
   const [isValidateForm, setIsValidateForm] = useState(false)
   const [dataContacts, setDataContacts] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const validateForm = async (value: any) => {
     const valid: boolean = value.includes(SUPPORTED_FORMATS)
@@ -60,6 +62,7 @@ export const Home = (): JSX.Element => {
 
   const onSubmit = async (e: any) => 
   {
+    setLoading(true)
     e.preventDefault()
 
     if(!isValidateForm){
@@ -73,38 +76,44 @@ export const Home = (): JSX.Element => {
 
     alert(res?.data.message)
 
+
   }
 
   return (
     <Container>
-      <Title>Escolha uma opção</Title>
-      <NavOption>
-        <BoxOption>
-          <TitleBoxOption>
-            Carregar arquivo excel 
-          </TitleBoxOption>
-            <AreaDragFile>
-              <Form onSubmit={onSubmit}>
-                {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
-                <ButtonFileUpload onChange={onChangeFile} type="file" name="fileXLSX" />
-                {!isValidateForm && <ErrorFileNotSuported>Tipo de arquivo não suportado</ErrorFileNotSuported>}
-                <ButtonSubmit type="submit">Selecione um arquivo para carregar</ButtonSubmit>
-              </Form>
-            </AreaDragFile>
-        </BoxOption>
-
-        <BoxOption>
-          <TitleBoxOption>
-            Carregar do banco 
-          </TitleBoxOption>
-            <AreaDragFile>
-              <Form >
-                {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
-                <ButtonSubmit type="submit">Carregar do banco</ButtonSubmit>
-              </Form>
-            </AreaDragFile>
-        </BoxOption>
-      </NavOption>
+      {loading && 
+        <Loading type="spinningBubbles" />
+      }  
+        {/* <Title>Escolha uma opção</Title> */}
+      {!loading &&
+        <NavOption>
+          <BoxOption>
+            <TitleBoxOption>
+              Carregar arquivo excel 
+            </TitleBoxOption>
+              <AreaDragFile>
+                <Form onSubmit={onSubmit}>
+                  {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
+                  <ButtonFileUpload onChange={onChangeFile} type="file" name="fileXLSX" />
+                  {!isValidateForm && <ErrorFileNotSuported>Tipo de arquivo não suportado</ErrorFileNotSuported>}
+                  <ButtonSubmit type="submit">Selecione um arquivo para carregar</ButtonSubmit>
+                </Form>
+              </AreaDragFile>
+          </BoxOption>
+  
+          <BoxOption>
+            <TitleBoxOption>
+              Carregar do banco 
+            </TitleBoxOption>
+              <AreaDragFile>
+                <Form >
+                  {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
+                  <ButtonSubmit type="submit">Carregar do banco</ButtonSubmit>
+                </Form>
+              </AreaDragFile>
+          </BoxOption>
+        </NavOption>
+      }
     </Container>
   )
 }
