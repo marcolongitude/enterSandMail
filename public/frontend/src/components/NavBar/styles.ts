@@ -68,7 +68,7 @@ export const UlMenu = styled('ul')<Props>`
     margin-top: 0px;
     margin-right: 0;
     flex-flow: column nowrap;
-    background-color: #0D2538;
+    background-color: #0d2538c2;
     position: fixed;
     transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(100%)'};
     top: 0;

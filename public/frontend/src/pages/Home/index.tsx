@@ -74,9 +74,9 @@ export const Home = (): JSX.Element => {
     
     console.log(res)
 
-    alert(res?.data.message)
-
-
+    setTimeout(()=> {
+      setLoading(false)
+    },4000)
   }
 
   return (
