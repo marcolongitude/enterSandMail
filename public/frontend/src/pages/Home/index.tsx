@@ -9,7 +9,10 @@ import {
   ErrorFileNotSuported,
   Title,
   NavOption,
-  Form } from './styles'
+  Form 
+} from './styles'
+
+import { Text, TextButton } from '../../components/typography'
 
 import XLSX from 'xlsx'
 
@@ -88,15 +91,15 @@ export const Home = (): JSX.Element => {
       {!loading &&
         <NavOption>
           <BoxOption>
-            <TitleBoxOption>
-              Carregar arquivo excel 
-            </TitleBoxOption>
+              <Text color='blue' size="medium" >Carregar arquivo excel </Text>
               <AreaDragFile>
                 <Form onSubmit={onSubmit}>
                   {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
                   <ButtonFileUpload onChange={onChangeFile} type="file" name="fileXLSX" />
                   {!isValidateForm && <ErrorFileNotSuported>Tipo de arquivo não suportado</ErrorFileNotSuported>}
-                  <ButtonSubmit type="submit">Selecione um arquivo para carregar</ButtonSubmit>
+                  <ButtonSubmit type="submit">
+                    <TextButton size="exsmall" >Selecione um arquivo para carregar</TextButton>
+                  </ButtonSubmit>
                 </Form>
               </AreaDragFile>
           </BoxOption>
@@ -108,7 +111,9 @@ export const Home = (): JSX.Element => {
               <AreaDragFile>
                 <Form >
                   {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
-                  <ButtonSubmit type="submit">Carregar do banco</ButtonSubmit>
+                  <ButtonSubmit type="submit">
+                    <TextButton size="exsmall" >Enviar emails</TextButton>
+                  </ButtonSubmit>
                 </Form>
               </AreaDragFile>
           </BoxOption>
