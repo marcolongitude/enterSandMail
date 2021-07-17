@@ -4,15 +4,14 @@ import {
   BoxOption, 
   TitleBoxOption, 
   AreaDragFile, 
-  ButtonSubmit, 
   ButtonFileUpload, 
-  ErrorFileNotSuported,
   Title,
   NavOption,
   Form 
 } from './styles'
 
 import { Text, TextButton } from '../../components/typography'
+import { ButtonSubmit } from '../../components/buttonSubmit'
 
 import XLSX from 'xlsx'
 
@@ -99,7 +98,7 @@ export const Home = (): JSX.Element => {
                   <ButtonFileUpload onChange={onChangeFile} type="file" name="fileXLSX" />
                   {!isValidateForm && 
                     <Text color="blue" size="xsmall">Tipo de arquivo não suportado</Text>}
-                  <ButtonSubmit type="submit">
+                  <ButtonSubmit color="blue" type="submit">
                     <TextButton size="exsmall" >Selecione um arquivo para carregar</TextButton>
                   </ButtonSubmit>
                 </Form>
