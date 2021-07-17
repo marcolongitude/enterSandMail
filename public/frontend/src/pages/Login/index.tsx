@@ -17,6 +17,9 @@ import { sessionUser } from '../../api'
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
 
+import {Text} from '../../components/typography'
+
+
 
 interface IResponse {
   status?: number;
@@ -90,14 +93,14 @@ export const Login = (): JSX.Element => {
       ) : (
         <LoginBox >
           <ToastContainer />
-          <Title >Enter Sand Email</Title>
+          <Text color='blue' size="medium" >Enter Sand Email</Text>
           <LogoSandMailImg src={logoSandMail} alt='logo sand mail'/>
           <ContainerComponentsLogin >
               <FormLogin onSubmit={handleSubmit(onSubmit)}>
                 <Input error={errors.user_email ? true : false} id="user_email" {...register("user_email")} placeholder="E-mail" />
                 {errors.user_email && <TextError >{errors.user_email?.message}</TextError>}
                 
-                <Input error={errors.password ? true : false} id="password" {...register("password")} placeholder="Senha" />
+                <Input type="password" error={errors.password ? true : false} id="password" {...register("password")} placeholder="Senha" />
                 {errors.password && <TextError >{errors.password?.message}</TextError>}
                 <ButtonSubmit type='submit'> 
                   {loader ?(
@@ -107,7 +110,7 @@ export const Login = (): JSX.Element => {
                       <Dot delay=".2s" />
                     </DotWrapper>
                   ): (
-                    <span>Entrar</span>
+                    <Text color='white' size="xsmall" >Entrar</Text>
                   )}
                 </ButtonSubmit>
               </FormLogin>
