@@ -13,7 +13,7 @@ const theme = {
     white: '#ffffff',
     black: '#111',
     gray: '#333',
-    lightGray: 'CCC',
+    red: '#E63946',
     blue: '#0077b6'
   },
   width: {
@@ -46,11 +46,12 @@ export const ButtonSubmit = styled('button').attrs<IProps>(() => ({
     color: white;
     border: none;
     border-radius: 6px;
+    transition: 0.3s;
+    opacity: 0.6;
 
     
     &:hover {
-      opacity: 1;
-      background-color: rgb(0 119 182 / 82%);
+      opacity: 1.0
     }
     
   `
