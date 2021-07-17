@@ -31,7 +31,7 @@ export const Home = (): JSX.Element => {
   const [dataContacts, setDataContacts] = useState([])
   const [loading, setLoading] = useState(false)
 
-  const validateForm = async (value: any) => {
+  const validateForm = (value: any) => {
     const valid: boolean = value.includes(SUPPORTED_FORMATS)
 
     setIsValidateForm(valid)
@@ -44,7 +44,7 @@ export const Home = (): JSX.Element => {
     var files = e.target.files, f = files[0];
 
     if(!validateForm(e.target.files[0].type)){
-      return 
+      return
     }
 
     var reader = new FileReader();
@@ -69,6 +69,7 @@ export const Home = (): JSX.Element => {
     e.preventDefault()
 
     if(!isValidateForm){
+      setLoading(false)
       return 
     }
 
@@ -96,7 +97,8 @@ export const Home = (): JSX.Element => {
                 <Form onSubmit={onSubmit}>
                   {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
                   <ButtonFileUpload onChange={onChangeFile} type="file" name="fileXLSX" />
-                  {!isValidateForm && <ErrorFileNotSuported>Tipo de arquivo não suportado</ErrorFileNotSuported>}
+                  {!isValidateForm && 
+                    <Text color="blue" size="xsmall">Tipo de arquivo não suportado</Text>}
                   <ButtonSubmit type="submit">
                     <TextButton size="exsmall" >Selecione um arquivo para carregar</TextButton>
                   </ButtonSubmit>
