@@ -74,7 +74,7 @@ export const Home = (): JSX.Element => {
 
     const token: any = localStorage.getItem('reduxState')
     const res: AxiosResponse<any> | undefined = await dataContactsUpload('/readfilexlsx', dataContacts, token)
-    
+
     console.log(res)
 
     setTimeout(()=> {
@@ -98,7 +98,7 @@ export const Home = (): JSX.Element => {
                   <ButtonFileUpload onChange={onChangeFile} type="file" name="fileXLSX" />
                   {!isValidateForm && 
                     <Text color="blue" size="xsmall">Tipo de arquivo não suportado</Text>}
-                  <ButtonSubmit color="blue" type="submit">
+                  <ButtonSubmit color="red" type="submit">
                     <TextButton size="exsmall" >Selecione um arquivo para carregar</TextButton>
                   </ButtonSubmit>
                 </Form>
