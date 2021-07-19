@@ -1,5 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Container, LoginBox, LogoSandMailImg, Title, ContainerComponentsLogin, FormLogin, Input, TextError, ButtonSubmit, DotWrapper, Dot } from './styles'
+import { 
+  Container, 
+  LoginBox, 
+  LogoSandMailImg, 
+  Title, 
+  ContainerComponentsLogin, 
+  FormLogin, 
+  Input, 
+  TextError, 
+  DotWrapper, 
+  Dot 
+} from './styles'
+
 import logoSandMail from '../../assets/images/logo.png' 
 
 import { useForm } from "react-hook-form";
@@ -17,7 +29,8 @@ import { sessionUser } from '../../api'
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
 
-import {Text} from '../../components/typography'
+import { Text, TextButton } from '../../components/typography'
+import { ButtonSubmit } from '../../components/buttonSubmit'
 
 
 
@@ -110,7 +123,7 @@ export const Login = (): JSX.Element => {
                       <Dot delay=".2s" />
                     </DotWrapper>
                   ): (
-                    <Text color='white' size="xsmall" >Entrar</Text>
+                    <TextButton color='white' size="xsmall" >Entrar</TextButton>
                   )}
                 </ButtonSubmit>
               </FormLogin>
