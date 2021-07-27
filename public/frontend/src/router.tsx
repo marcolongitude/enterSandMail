@@ -3,6 +3,7 @@ import { Switch, BrowserRouter } from "react-router-dom";
 import Layout from "./layout";
 import { Login } from "./pages";
 import  { Home }  from "./pages";
+import { Users } from "./pages";
 import { ROUTES } from "./constants";
 
 /* Import Custom Routes */
@@ -10,7 +11,7 @@ import PublicRoute from "./routers/PublicRoutes";
 import PrivateRoute from "./routers/PrivateRoutes";
 
 const Router = () => {
-  const [isAutenticating, setAutnticating] = useState(true); 
+  const [isAutenticating, setAutenticating] = useState(true); 
   const [childProps, setChildProps] = useState({ isAutenticated: false }); 
 
   useEffect(() => {
@@ -18,7 +19,7 @@ const Router = () => {
     if (isAuth) {
       setChildProps({ isAutenticated: true });
     }
-    setAutnticating(false);
+    setAutenticating(false);
   }, []);
 
   return (
@@ -40,13 +41,13 @@ const Router = () => {
                 component={Home}
                 exact
               />
-              {/* <PrivateRoute
+              <PrivateRoute
                 {...childProps}
-                path={ROUTES.ABOUT}
-                component={About}
+                path={ROUTES.USERS}
+                component={Users}
                 exact
               />
-              <PrivateRoute
+              {/* <PrivateRoute
                 {...childProps}
                 path={ROUTES.CONTACT}
                 component={Contact}

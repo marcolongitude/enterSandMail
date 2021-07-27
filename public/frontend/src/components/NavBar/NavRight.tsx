@@ -22,7 +22,7 @@ const NavRight = ({ open }: Props) => {
         <LinkRedirect to={ROUTES.ABOUT}>About</LinkRedirect>
       </LiMenu>
       <LiMenu>
-        <LinkRedirect to={ROUTES.CONTACT}>Criar usuário</LinkRedirect>
+        <LinkRedirect to={ROUTES.USERS}>Criar usuário</LinkRedirect>
       </LiMenu>
       <LiMenu>
         <ButtonLogout href="/" onClick={handleLogout}>

@@ -60,8 +60,22 @@ export const dataContactsUpload = async function (route: string, body: Array<obj
   }
 };
 
+export const getAllContacts = async function (route: string, token: string) {
+  try {
+    const response = await api.get(route, {
+      headers: {
+        'Authorization': token
+      }
+    })
+    return response;
+  } catch (err) {
+    console.log(err)
+  }
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   sessionUser,
-  dataContactsUpload
+  dataContactsUpload,
+  getAllContacts
 };

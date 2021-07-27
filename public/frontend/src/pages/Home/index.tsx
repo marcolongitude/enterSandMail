@@ -5,7 +5,6 @@ import {
   TitleBoxOption, 
   AreaDragFile, 
   ButtonFileUpload, 
-  Title,
   NavOption,
   Form 
 } from './styles'
