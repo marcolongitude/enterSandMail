@@ -10,12 +10,12 @@ export const theme = {
   width: {
     block: '100%',
     medium: '75%',
-    xsmall: '1rem',
+    xsmall: '50%',
   },
   height: {
     thin: '30px',
     medium: '45px',
-    large: '55%'    
+    large: '60px'    
   }
 }
 
