@@ -4,17 +4,17 @@ import { theme } from './constants'
 
 interface IProps {
   color?: keyof typeof theme.colors
-  size?: keyof typeof theme.width
+  width?: keyof typeof theme.width
   height?: keyof typeof theme.height
 }
 
 export const ButtonSubmit = styled('button').attrs<IProps>(() => ({}))<IProps>`
   ${({
     color = 'blue',
-    size = 'block',
+    width = 'block',
     height = 'medium'
   }) => css`
-    width: ${theme.width[size]};
+    width: ${theme.width[width]};
     background-color: ${theme.colors[color]};
     height: ${theme.height[height]};
     cursor: pointer;

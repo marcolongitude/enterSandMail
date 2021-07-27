@@ -98,7 +98,7 @@ export const Home = (): JSX.Element => {
                   <ButtonFileUpload onChange={onChangeFile} type="file" name="fileXLSX" />
                   {!isValidateForm && 
                     <Text color="blue" size="xsmall">Tipo de arquivo não suportado</Text>}
-                  <ButtonSubmit size="medium" color="blue" type="submit">
+                  <ButtonSubmit width="medium" color="blue" type="submit">
                     <TextButton size="exsmall" >Selecione um arquivo para carregar</TextButton>
                   </ButtonSubmit>
                 </Form>
@@ -106,13 +106,11 @@ export const Home = (): JSX.Element => {
           </BoxOption>
   
           <BoxOption>
-            <TitleBoxOption>
-              Carregar do banco 
-            </TitleBoxOption>
+            <TitleBoxOption>Carregar do banco</TitleBoxOption>
               <AreaDragFile>
                 <Form >
                   {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
-                  <ButtonSubmit size="medium" color="green" type="submit">
+                  <ButtonSubmit width="medium" color="green" type="submit">
                     <TextButton size="exsmall" >Enviar emails</TextButton>
                   </ButtonSubmit>
                 </Form>
