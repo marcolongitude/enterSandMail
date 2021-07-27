@@ -6,7 +6,6 @@ import {
   Title, 
   ContainerComponentsLogin, 
   FormLogin, 
-  Input, 
   TextError, 
   DotWrapper, 
   Dot 
@@ -31,6 +30,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 
 import { Text, TextButton } from '../../components/typography'
 import { ButtonSubmit } from '../../components/buttonSubmit'
+import { Input } from '../../components/input'
 
 
 

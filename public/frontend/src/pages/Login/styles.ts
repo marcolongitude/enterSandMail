@@ -50,33 +50,6 @@ export const FormLogin = styled.form`
     width: 90%
 `;
 
-interface InputProps {
-    error: boolean
-}
-export const Input = styled.input`
-    width: 100%;
-    min-width: 80%;
-    margin: 10px 0 10px 0;
-    background-color: ${colors.backgroundInput};
-    height: 46px;
-    border-radius: 5px;
-    box-sizing: border-box;
-    padding: 10px;
-    border: ${(props: InputProps) => props.error ? '1px solid red': `1px solid ${colors.blueActive}`};
-    ::placeholder,
-    ::-webkit-input-placeholder {
-        color: ${colors.placeholder};
-        font-size: 15px;
-    }
-    :-ms-input-placeholder {
-        color: ${colors.placeholder};
-        font-size: 15px;
-    }
-    &:focus {
-        outline: none;
-    }
-`;
-
 export const TextError = styled.span`
     color: #c40000;
     font-size: 14px;
