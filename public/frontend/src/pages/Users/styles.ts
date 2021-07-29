@@ -27,11 +27,15 @@ export const UserList = styled.div`
   margin-top: 50px
 `;
 
+export const InfoUser = styled.div`
+  padding-top: 33px;
+`;
+
 export const UserCard = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  flex-direction: column;
+  flex-direction: row;
   padding: 15px;
   margin: 15px;
   width: 30%;
@@ -45,5 +49,20 @@ export const UserCard = styled.div`
 
   p {
     color: white;
+  }
+`;
+
+export const Tag = styled.div`
+  width: 80px;
+  height: 23px;
+  background-color: ${colors.blueActive};
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  cursor: pointer;
+  &:hover {
+    background-color: ${colors.blueHoverButton};
   }
 `;
