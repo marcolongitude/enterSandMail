@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 import { getAllContacts } from '../../api'
 
-import { UserContainer, UserCard, UserList, ButtonWrapper } from './styles';
+import { UserContainer, UserCard, UserList, ButtonWrapper, InfoUser } from './styles';
 
-import { ButtonSubmit } from '../../components/buttonSubmit'
-import { Text } from '../../components/typography'
+import { Button } from '../../components/button'
+import { Text, TextButton } from '../../components/typography'
+import { Tag } from '../../components/tag'
 
 export const Users = (): JSX.Element => {
 
@@ -26,8 +27,13 @@ export const Users = (): JSX.Element => {
       <>
         {dataContacts && dataContacts.map((contact: any, index) => (
           <UserCard key={index}>
-            <p >{contact.user_name}</p>
-            <p >{contact.user_email}</p>
+            <InfoUser>
+              <p >{contact.user_name}</p>
+              <p >{contact.user_email}</p>
+            </InfoUser>
+            <Tag width="medium" height="thin">
+              <TextButton size="tiny" color="white" >Editar</TextButton>
+            </Tag>
           </UserCard>
         ))}
       </>
@@ -38,7 +44,7 @@ export const Users = (): JSX.Element => {
     <UserContainer>
       <Text size="large" color="blue" >Lista de usuários</Text>
       <ButtonWrapper>
-        <ButtonSubmit width="exsmall" color="blue" type="submit">Adicionar Usuário</ButtonSubmit>
+        <Button width="exsmall" color="blue" type="submit">Adicionar Usuário</Button>
       </ButtonWrapper>
       <UserList>
         {renderContactsCard()}  
