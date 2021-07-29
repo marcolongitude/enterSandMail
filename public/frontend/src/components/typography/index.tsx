@@ -16,6 +16,7 @@ const theme = {
     blue: '#0077b6'
   },
   sizes: {
+    tiny: '0.7rem',
     exsmall: '0.9rem',
     xsmall: '1rem',
     small: '1.2rem',
