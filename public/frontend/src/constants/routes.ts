@@ -4,4 +4,5 @@ export const ROUTES = {
   CONTACT: "/contact",
   LOGIN: "/login",
   USERS: "/users",
+  ADD_USERS: "/addusers"
 };

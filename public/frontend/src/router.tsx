@@ -4,6 +4,7 @@ import Layout from "./layout";
 import { Login } from "./pages";
 import  { Home }  from "./pages";
 import { Users } from "./pages";
+import { AddUsers } from "./pages";
 import { ROUTES } from "./constants";
 
 /* Import Custom Routes */
@@ -45,6 +46,12 @@ const Router = () => {
                 {...childProps}
                 path={ROUTES.USERS}
                 component={Users}
+                exact
+              />
+              <PrivateRoute
+                {...childProps}
+                path={ROUTES.ADD_USERS}
+                component={AddUsers}
                 exact
               />
               {/* <PrivateRoute
