@@ -8,7 +8,7 @@ interface IProps {
   height?: keyof typeof theme.height
 }
 
-export const ButtonSubmit = styled('button').attrs<IProps>(() => ({}))<IProps>`
+export const Button = styled('button').attrs<IProps>(() => ({}))<IProps>`
   ${({
     color = 'blue',
     width = 'block',
@@ -19,7 +19,6 @@ export const ButtonSubmit = styled('button').attrs<IProps>(() => ({}))<IProps>`
     height: ${theme.height[height]};
     cursor: pointer;
     margin: 15px 0 0 0;
-    height: 46px;
     color: white;
     border: none;
     border-radius: 6px;
