@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 import { getAllContacts } from '../../api'
+import { flowService } from "../../helpers/flow"
 
 import { UserContainer, UserCard, UserList, ButtonWrapper, InfoUser } from './styles';
 
 import { Button } from '../../components/button'
 import { Text, TextButton } from '../../components/typography'
 import { Tag } from '../../components/tag'
+import { ROUTES } from '../../constants';
 
 export const Users = (): JSX.Element => {
 
@@ -21,6 +23,10 @@ export const Users = (): JSX.Element => {
   }, [])
   
   console.log(dataContacts)
+
+  const redirectAddUser = () => {
+    flowService.goTo(ROUTES.ADD_USERS)
+  }
 
   const renderContactsCard = () => {
     return (
@@ -44,7 +50,7 @@ export const Users = (): JSX.Element => {
     <UserContainer>
       <Text size="large" color="blue" >Lista de usuários</Text>
       <ButtonWrapper>
-        <Button width="exsmall" color="blue" type="submit">Adicionar Usuário</Button>
+        <Button onClick={redirectAddUser} width="exsmall" color="blue" type="submit">Adicionar Usuário</Button>
       </ButtonWrapper>
       <UserList>
         {renderContactsCard()}  
