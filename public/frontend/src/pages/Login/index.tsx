@@ -28,7 +28,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
 
 import { Text, TextButton } from '../../components/typography'
-import { ButtonSubmit } from '../../components/buttonSubmit'
+import { Button } from '../../components/button'
 import { Input } from '../../components/input'
 
 
@@ -114,7 +114,7 @@ export const Login = (): JSX.Element => {
                 
                 <Input type="password" error={errors.password ? true : false} id="password" {...register("password")} placeholder="Senha" />
                 {errors.password && <TextError >{errors.password?.message}</TextError>}
-                <ButtonSubmit type='submit'> 
+                <Button type='submit'> 
                   {loader ?(
                     <DotWrapper>
                       <Dot delay="0s" />
@@ -124,7 +124,7 @@ export const Login = (): JSX.Element => {
                   ): (
                     <TextButton color='white' size="xsmall" >Entrar</TextButton>
                   )}
-                </ButtonSubmit>
+                </Button>
               </FormLogin>
           </ContainerComponentsLogin>
         </LoginBox>

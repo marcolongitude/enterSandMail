@@ -10,7 +10,7 @@ import {
 } from './styles'
 
 import { Text, TextButton } from '../../components/typography'
-import { ButtonSubmit } from '../../components/buttonSubmit'
+import { Button } from '../../components/button'
 
 import XLSX from 'xlsx'
 
@@ -97,9 +97,9 @@ export const Home = (): JSX.Element => {
                   <ButtonFileUpload onChange={onChangeFile} type="file" name="fileXLSX" />
                   {!isValidateForm && 
                     <Text color="blue" size="xsmall">Tipo de arquivo não suportado</Text>}
-                  <ButtonSubmit width="medium" color="blue" type="submit">
+                  <Button width="medium" color="blue" type="submit">
                     <TextButton size="exsmall" >Selecione um arquivo para carregar</TextButton>
-                  </ButtonSubmit>
+                  </Button>
                 </Form>
               </AreaDragFile>
           </BoxOption>
@@ -109,9 +109,9 @@ export const Home = (): JSX.Element => {
               <AreaDragFile>
                 <Form >
                   {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
-                  <ButtonSubmit width="medium" color="green" type="submit">
+                  <Button width="medium" color="green" type="submit">
                     <TextButton size="exsmall" >Enviar emails</TextButton>
-                  </ButtonSubmit>
+                  </Button>
                 </Form>
               </AreaDragFile>
           </BoxOption>
