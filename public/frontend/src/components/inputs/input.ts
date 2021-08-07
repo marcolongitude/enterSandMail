@@ -8,11 +8,11 @@ interface IProps {
   error: boolean
 }
 
-export const theme = {
+const theme = {
   width: {
     block: '100%',
     medium: '75%',
-    xsmall: '1rem',
+    xsmall: '45%',
   },
   height: {
     thin: '30px',
