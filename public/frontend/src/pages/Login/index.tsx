@@ -27,10 +27,7 @@ import { sessionUser } from '../../api'
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
 
-import { Text, TextButton } from '../../components/typography'
-import { Button } from '../../components/button'
-import { Input } from '../../components/input'
-
+import { Text, TextButton, Button, Input } from '../../components/'
 
 
 interface IResponse {
