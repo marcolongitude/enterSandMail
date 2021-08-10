@@ -42,13 +42,9 @@ export const AddUsers = () => {
           <Input width="block" error={errors.password ? true : false} {...register("password")} id="password" placeholder="Senha do usuário" type="password"/>
 
           <Select>
-            <option value="" hidden>
-              Type
-            </option>
-            <option value="1">Audi</option>
-            <option value="2">BMW</option>
-            <option value="3">Citroen</option>
-            <option value="4">Ford</option>
+            <option value="usuario">Usuário</option>
+            <option value="admin">Administrador</option>
+            <option value="super">Super usuário</option>
           </Select>
         </SideForm>
       </ContainerForm>
