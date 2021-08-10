@@ -7,5 +7,6 @@ export const colors = {
   placeholder: '#005583',
 
   backgroundInput: 'white',
-  backgroundColorDefault: '#fbfbfb' 
+  backgroundColorDefault: '#fbfbfb',
+  backgroundPrimaryCard: ' #f3f3f3;'
 };
