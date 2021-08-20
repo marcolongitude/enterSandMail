@@ -5,9 +5,6 @@ import {
   LogoSandMailImg, 
   ContainerComponentsLogin, 
   FormLogin, 
-  TextError, 
-  DotWrapper, 
-  Dot 
 } from './styles'
 
 import logoSandMail from '../../assets/images/logo.png' 
@@ -27,7 +24,7 @@ import { sessionUser } from '../../api'
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
 
-import { Text, TextButton, Button, Input } from '../../components/'
+import { Text, TextButton, Button, Input, Dot, DotWrapper, TextError } from '../../components/'
 
 
 interface IResponse {
