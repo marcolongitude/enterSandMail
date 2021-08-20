@@ -19,6 +19,10 @@ export const Select = styled.select`
   background-position-x: 99%;
   background-position-y: 10px;
 
+  &:focus {
+    outline: none;
+  }
+
   option {
     color: black;
     background-color: ${colors.backgroundInput};
