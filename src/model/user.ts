@@ -12,7 +12,13 @@ export const createUser = {
 
 export const getAllUsers = {
         v1: async()=> {
-        return await prisma.users.findMany();
+        return await prisma.users.findMany(
+            {
+                orderBy: {
+                    createdAt: 'desc',
+                },
+            }
+        );
     }
 }
 
