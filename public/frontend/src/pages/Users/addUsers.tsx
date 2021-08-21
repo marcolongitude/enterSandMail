@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+
+import { addUser } from '../../api'
+
 import { ContainerAddUser, ContainerTitle, ContainerForm, SideForm } from './stylesAddUser'
 import { Text, TextError, Input, Select, Button, TextButton, DotWrapper, Dot } from '../../components'
 import { useForm } from "react-hook-form"
@@ -9,6 +12,7 @@ interface IFormInputs {
   user_name: string;
   user_email: string;
   password: string;
+  user_permission: string;
 }
 
 const schema = yup.object().shape({
@@ -26,8 +30,14 @@ export const AddUsers = () => {
   });
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log('teste')
-      console.log(data)
+
+    console.log(data)
+
+    const token: any = localStorage.getItem('reduxState')
+
+    let response = await addUser('users', data, token)
+
+      console.log(response)
   }
 
   return (
@@ -46,7 +56,7 @@ export const AddUsers = () => {
         <SideForm>
           <Input width="block" error={errors.password ? true : false} {...register("password")} id="password" placeholder="Senha do usuário" type="password"/>
           {errors.password && <TextError >{errors.password?.message}</TextError>}
-          <Select>
+          <Select {...register("user_permission")} id="user_permission">
             <option value="usuario">Usuário</option>
             <option value="admin">Administrador</option>
             <option value="super">Super usuário</option>
