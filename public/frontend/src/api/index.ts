@@ -43,6 +43,23 @@ export const sessionUser = async function (route: string, body: TSessionUser): P
   }
 };
 
+export const addUser = async function (route: string, body: object, token: string) {
+  try {
+    const response = await api.post(route, {
+      data: body
+    }, {
+      headers: {
+        'Authorization': token
+      }
+    })
+
+    return response
+  }catch(err){
+    //TODO: tratar erros
+    console.log(err)
+  }
+}
+
 export const dataContactsUpload = async function (route: string, body: Array<object>, token: string) {
   try {
     const response = await api.post(route, {
