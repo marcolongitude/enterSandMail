@@ -19,8 +19,8 @@ model users {
   user_email      String                @unique @db.VarChar(60)
   password_hash   String                @db.VarChar(150)
   user_permission users_user_permission @default(comum)
-  createdAt       DateTime?             @db.Date
-  updatedAt       DateTime?             @db.Date
+  createdAt       DateTime?             @default(now())
+  updatedAt       DateTime?             @updatedAt
 }
 
 enum users_user_permission {
