@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
 
 import { addUser } from '../../api'
+// import { IResponse } from '../../interfaces'
 
 import { ContainerAddUser, ContainerTitle, ContainerForm, SideForm } from './stylesAddUser'
 import { Text, TextError, Input, Select, Button, TextButton, DotWrapper, Dot } from '../../components'
 import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.min.css";
+import { flowService } from '../../helpers/flow'
+import { ROUTES } from '../../constants'
 
 interface IFormInputs {
   user_name: string;
@@ -14,6 +19,13 @@ interface IFormInputs {
   password: string;
   user_permission: string;
 }
+
+export interface IResponse {
+  status?: number;
+  error?: string;
+  message?: string;
+  data?: object;
+} 
 
 const schema = yup.object().shape({
   user_name: yup.string().max(100).required('O campo nome é obrigatório'),
@@ -31,17 +43,48 @@ export const AddUsers = () => {
 
   const onSubmit = async (data: IFormInputs) => {
 
+    setLoader(true)
+
     console.log(data)
 
     const token: any = localStorage.getItem('reduxState')
 
-    let response = await addUser('users', data, token)
+    let response: any = await addUser('users', data, token)
 
-      console.log(response)
+    if(!response.data){
+      console.log(response.message, response.status)
+      toast.error(` ${response.status} : ${response.message} `, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+      setLoader(false)
+      return;
+    }
+
+    toast.success(` ${response.status} : Login realizado com sucesso`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+    });
+    setTimeout(() => {
+      
+      flowService.goTo(ROUTES.USERS);
+      setLoader(false)
+    }, 3000);
+
+    setLoader(false)
+
+    console.log(response)
   }
 
   return (
     <ContainerAddUser>
+       <ToastContainer />
       <ContainerTitle>
         <Text color="blue">Adicionar usuário</Text>
       </ContainerTitle>
