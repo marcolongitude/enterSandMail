@@ -23,21 +23,23 @@ class UserController {
             user_permission: Yup.string().required(),
         });
 
-        if (!(await schema.isValid(req.body))){
+        console.log(req.body)
+
+        if (!(await schema.isValid(req.body.data))){
             return res.status(400).json({error: 'Validation fails'});
         }
 
-        const userExists = await userModel.getUserByEmail.v1(req.body.user_email);
+        const userExists = await userModel.getUserByEmail.v1(req.body.data.user_email);
 
         if (userExists) {
-            return res.status(400).json({ error: "User already exists!" });
+            return res.status(409).json({ error: "User already exists!" });
         }
 
-        req.body.password_hash = await bcrypt.hash(req.body.password, 8);
+        req.body.data.password_hash = await bcrypt.hash(req.body.data.password, 8);
 
-        delete req.body.password;
+        delete req.body.data.password;
 
-        const { id_user, user_name, user_email, password_hash, user_permission } = await userModel.createUser.v1(req.body);
+        const { id_user, user_name, user_email, password_hash, user_permission } = await userModel.createUser.v1(req.body.data);
 
         return res.json({ id_user, user_name, user_email, password_hash, user_permission });
     }
