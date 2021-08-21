@@ -25,21 +25,23 @@ class UserController {
 
         console.log(req.body)
 
-        if (!(await schema.isValid(req.body.data))){
+        const {data} = req.body
+
+        if (!(await schema.isValid(data))){
             return res.status(400).json({error: 'Validation fails'});
         }
 
-        const userExists = await userModel.getUserByEmail.v1(req.body.data.user_email);
+        const userExists = await userModel.getUserByEmail.v1(data.user_email);
 
         if (userExists) {
             return res.status(409).json({ error: "User already exists!" });
         }
 
-        req.body.data.password_hash = await bcrypt.hash(req.body.data.password, 8);
+        data.password_hash = await bcrypt.hash(data.password, 8);
 
-        delete req.body.data.password;
+        delete data.password;
 
-        const { id_user, user_name, user_email, password_hash, user_permission } = await userModel.createUser.v1(req.body.data);
+        const { id_user, user_name, user_email, password_hash, user_permission } = await userModel.createUser.v1(data);
 
         return res.json({ id_user, user_name, user_email, password_hash, user_permission });
     }
