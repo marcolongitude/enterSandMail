@@ -64,7 +64,7 @@ export const AddUsers = () => {
       return;
     }
 
-    toast.success(` ${response.status} : Login realizado com sucesso`, {
+    toast.success(` ${response.status} : Usuário criado com sucesso`, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
