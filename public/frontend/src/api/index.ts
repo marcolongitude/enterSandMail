@@ -62,11 +62,6 @@ export const addUser = async function (route: string, body: any, token: string) 
 }
 
 export const removeUser = async function (route: string, id_user: number, token: string) {
-  console.log('2222222222222222222')
-  console.log(route)
-  console.log(id_user)
-  console.log(token)
-  console.log('2222222222222222222')
   try {
     const response = await api.patch(route, {
       data: id_user
@@ -76,15 +71,21 @@ export const removeUser = async function (route: string, id_user: number, token:
       }
     })
 
-    console.log('111111111111111111111111')
-    console.log(response)
-    console.log('111111111111111111111111')
-
     return response
 
   }catch(err){
-    console.log(err)
+
+    if (err.response.status === 400) {
+      let error: Terror = {
+        status: err.response.status,
+        error: err,
+        message: err.response.data.error
+      };
+
+      return error;
+    }
   }
+
 }
 
 export const dataContactsUpload = async function (route: string, body: Array<object>, token: string) {
