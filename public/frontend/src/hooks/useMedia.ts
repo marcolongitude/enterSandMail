@@ -15,11 +15,10 @@ export const useMedia = <T>(queries: string[], values: T[], defaultValue: T) => 
     () => {
       const handler = () => setValue(getValue);
 
-      mediaQueryLists.forEach((mql) => mql.addListener(handler));
-      return () => mediaQueryLists.forEach((mql) => mql.removeListener(handler));
-    },
-    [] 
-  );
+      mediaQueryLists.forEach((mql) => mql.addEventListener('load', handler));
+      return () => mediaQueryLists.forEach((mql) => mql.removeEventListener('load', handler));
+    },[]);
+
   return value;
 };
 
