@@ -45,11 +45,22 @@ export const AddUsers = () => {
 
     setLoader(true)
 
-    console.log(data)
-
     const token: any = localStorage.getItem('reduxState')
 
     let response: any = await addUser('users', data, token)
+
+    if(response.status === 401){
+      console.log(response.message, response.status)
+      toast.error(` ${response.status} : ${response.message} `, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+      setLoader(false)
+      return;
+    }
 
     if(!response.data){
       console.log(response.message, response.status)
@@ -100,7 +111,7 @@ export const AddUsers = () => {
           <Input width="block" error={errors.password ? true : false} {...register("password")} id="password" placeholder="Senha do usuário" type="password"/>
           {errors.password && <TextError >{errors.password?.message}</TextError>}
           <Select {...register("user_permission")} id="user_permission">
-            <option value="usuario">Usuário</option>
+            <option value="comum">Usuário comum</option>
             <option value="admin">Administrador</option>
             <option value="super">Super usuário</option>
           </Select>
