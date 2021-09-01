@@ -23,8 +23,26 @@ export const sessionUser = async function (route: string, body: TSessionUser): P
     
     return response;
   } catch (err) {
+    //TODO: tratar erro
+    console.log(err)
 
-    if (err.response.data.status === 401) {
+    return err
+  }
+};
+
+export const addUser = async function (route: string, body: any, token: string) {
+  try {
+    const response = await api.post(route, {
+      data: body
+    }, {
+      headers: {
+        'Authorization': token
+      }
+    })
+
+    return response
+  }catch(err){
+    if (err.response.data.status === 409) {
       let error: Terror = {
         status: err.response.status,
         error: err,
@@ -41,21 +59,30 @@ export const sessionUser = async function (route: string, body: TSessionUser): P
     };
     return error;
   }
-};
+}
 
-export const addUser = async function (route: string, body: object, token: string) {
+export const removeUser = async function (route: string, id_user: number, token: string) {
+  console.log('2222222222222222222')
+  console.log(route)
+  console.log(id_user)
+  console.log(token)
+  console.log('2222222222222222222')
   try {
-    const response = await api.post(route, {
-      data: body
+    const response = await api.patch(route, {
+      data: id_user
     }, {
       headers: {
         'Authorization': token
       }
     })
 
+    console.log('111111111111111111111111')
+    console.log(response)
+    console.log('111111111111111111111111')
+
     return response
+
   }catch(err){
-    //TODO: tratar erros
     console.log(err)
   }
 }
@@ -90,9 +117,3 @@ export const getAllContacts = async function (route: string, token: string) {
   }
 };
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
-  sessionUser,
-  dataContactsUpload,
-  getAllContacts
-};
