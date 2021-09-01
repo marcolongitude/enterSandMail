@@ -22,6 +22,7 @@ routes.get('/users', AuthMiddleware('sa'), userController.getAll);
 routes.get('/users/:id', AuthMiddleware('sac'), userController.getById);
 routes.get('/users/:email', AuthMiddleware('sa'), userController.getByEmail);
 routes.put('/users/:id', AuthMiddleware('sa'), userController.update);
+routes.patch('/users', AuthMiddleware('sa'), userController.removeUser);
 
 //Routes read file xlsx
 // routes.post('/readfilexlsx', AuthMiddleware('sa'), ReadFileXLSXController.ReadFileXLSX);
