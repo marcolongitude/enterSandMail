@@ -14,6 +14,7 @@ export const Tag = styled('div').attrs<IProps>(() => ({}))<IProps>`
     height = 'medium'
   }) => css`
     width: ${theme.width[width]};
+    margin: 3px 3px;
     background-color: ${theme.colors[color]};
     height: ${theme.height[height]};
     cursor: pointer;
