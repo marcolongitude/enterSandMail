@@ -65,6 +65,14 @@ class UserController {
         return res.json(user);
     }
 
+    async removeUser(req: Request, res: Response) {
+        const userId = req.body.data
+
+        const response = await userModel.deleteUser.v1(userId);
+
+        return res.json(response);
+    }
+
     async update(req: Request, res: Response): Promise<object> {
         const schema = Yup.object().shape({
             user_name: Yup.string(),
