@@ -14,6 +14,9 @@ export const getAllUsers = {
         v1: async()=> {
         return await prisma.users.findMany(
             {
+                where: {
+                    active: 'active'
+                },
                 orderBy: {
                     createdAt: 'desc',
                 },
