@@ -14,15 +14,19 @@ import { toast, ToastContainer } from 'react-toastify';
 export const Users = (): JSX.Element => {
 
   const [dataContacts, setDataContacts] = useState([])
+  const [tokenAuth, setTokenAuth] = useState('')
 
-  async function getContacts(token: string) {
-    const contacts: any = await getAllContacts('/users', token)
-    let contactsActive: any = contacts.data.filter((contact: any) => contact.active === 'active')
-    setDataContacts(contactsActive)
-  }
-  useEffect(()=> {
+  async function getContacts() {
     const token: any = localStorage.getItem('reduxState')
-    getContacts(token)
+    setTokenAuth(token)
+    
+    const contacts: any = await getAllContacts('/users', token)
+    setDataContacts(contacts.data)
+  }
+  
+  useEffect(()=> {
+
+    getContacts()
   }, [])
   
   const redirectAddUser = () => {
@@ -30,10 +34,9 @@ export const Users = (): JSX.Element => {
   }
 
   const handleRemoveUser = async(id_user: number) => {
-    const token: any = localStorage.getItem('reduxState')
 
     try {
-      const response: any = await removeUser('/users', id_user, token)
+      const response: any = await removeUser('/users', id_user, tokenAuth)
 
       if(response.status === 200) {
         toast.success(` ${response.status} : Usuário deletado com sucesso`, {
@@ -43,15 +46,25 @@ export const Users = (): JSX.Element => {
           closeOnClick: true,
           pauseOnHover: true,
         });
-        getContacts(token)
+        getContacts()
+      }
+
+      if(response.status === 400) {
+        toast.error(` ${response.status} : ${response.message} `, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
       }
       
     } catch (error) {
+
+      console.log(error)
       
     }
 
-
-    getContacts(token)
   }
 
   const renderContactsCard = () => {
