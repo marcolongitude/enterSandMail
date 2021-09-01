@@ -21,10 +21,16 @@ model users {
   user_permission users_user_permission @default(comum)
   createdAt       DateTime?             @default(now())
   updatedAt       DateTime?             @updatedAt
+  active          users_active          @default(active)
 }
 
 enum users_user_permission {
   admin
   comum
   super
+}
+
+enum users_active {
+  active
+  inactive
 }
