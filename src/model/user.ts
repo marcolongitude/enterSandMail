@@ -51,10 +51,22 @@ export const updateUser = {
     }
 }
 
+export const deleteUser = {
+    v1: async(id: any) => {
+        return await prisma.users.update({
+            where: {id_user: id},
+            data: {
+                active: 'inactive'
+            }
+        })
+    }
+}
+
 export default {
     createUser,
     getAllUsers,
     getUser,
     getUserByEmail,
-    updateUser
+    updateUser,
+    deleteUser
 }
