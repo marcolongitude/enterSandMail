@@ -23,15 +23,13 @@ class UserController {
             user_permission: Yup.string().required(),
         });
 
-        console.log(req.body)
-
         const {data} = req.body
 
         if (!(await schema.isValid(data))){
             return res.status(400).json({error: 'Validation fails'});
         }
 
-        const userExists = await userModel.getUserByEmail.v1(data.user_email);
+        const userExists: object | null = await userModel.getUserByEmail.v1(data.user_email);
 
         if (userExists) {
             return res.status(409).json({ error: "User already exists!" });
@@ -43,34 +41,49 @@ class UserController {
 
         const { id_user, user_name, user_email, password_hash, user_permission } = await userModel.createUser.v1(data);
 
-        return res.json({ id_user, user_name, user_email, password_hash, user_permission });
+        return res.status(200).json({ id_user, user_name, user_email, password_hash, user_permission });
     }
 
     async getAll(req: Request, res: Response): Promise<object> {
-        const allUsers = await userModel.getAllUsers.v1();
-        return res.json(allUsers);
+        const allUsers: Array<object> = await userModel.getAllUsers.v1();
+
+        if(!allUsers)
+            return res.status(400).json({error: 'Error getting all users'});
+
+        return res.status(200).json(allUsers);
     }
 
     async getById(req: Request, res: Response): Promise<object> {
         const userId: string = req.params.id;
-        const id = parseInt(userId);
+        const id: number = parseInt(userId);
 
-        const user = await userModel.getUser.v1(id);
-        return res.json(user);
+        const user: object | null = await userModel.getUser.v1(id);
+
+        if(!user)
+            return res.status(401).json({ error: "User not exists!" });
+
+        return res.status(200).json(user);
     }
 
     async getByEmail(req: Request, res: Response): Promise<object> {
         const userEmail: string = req.params.email;
-        const user = await userModel.getUserByEmail.v1(userEmail);
-        return res.json(user);
+        const user: object | null = await userModel.getUserByEmail.v1(userEmail);
+
+        if(!user)
+            return res.status(401).json({ error: "User not exists!" });
+
+        return res.status(200).json(user);
     }
 
     async removeUser(req: Request, res: Response) {
-        const userId = req.body.data
+        const userId: number = req.body.data
 
-        const response = await userModel.deleteUser.v1(userId);
+        const updatedUser: object = await userModel.deleteUser.v1(userId);
 
-        return res.json(response);
+        if(!updatedUser)
+            return res.status(400).json({error: 'Error deleting user'});
+
+        return res.status(200).json(updatedUser);
     }
 
     async update(req: Request, res: Response): Promise<object> {
@@ -91,7 +104,7 @@ class UserController {
             return res.status(400).json({error: 'Validation fails'});
         }
 
-        const user = await userModel.getUser.v1(req.body.userId);
+        const user: IDataUser | null = await userModel.getUser.v1(req.body.userId);
 
         if(!user){
             return res.status(401).json({ error: "User not exists!" });
@@ -115,7 +128,7 @@ class UserController {
             user_permission: req.body.user_permission
         }
 
-        const response = await userModel.updateUser.v1(UserId, dataUser);
+        const response: object = await userModel.updateUser.v1(UserId, dataUser);
 
         if(response){
             return res.status(200).json('Data updated successfully!');
