@@ -4,6 +4,8 @@ import checkPassword from '../util/checkPassword';
 import { Request, Response } from 'express';
 
 import userModel from '../model/user';
+import SaveContactsController from './SaveContactsController';
+import { Prisma } from '@prisma/client';
 
 interface IDataUser {
     user_name: string;
@@ -19,7 +21,7 @@ class UserController {
         const schema = Yup.object().shape({
             user_name: Yup.string().required(),
             user_email: Yup.string().email().required(),
-            password: Yup.string().required(),
+            password: Yup.string().min(6).required(),
             user_permission: Yup.string().required(),
         });
 
@@ -29,28 +31,46 @@ class UserController {
             return res.status(400).json({error: 'Validation fails'});
         }
 
-        const userExists: object | null = await userModel.getUserByEmail.v1(data.user_email);
+        try {
+            const userExists: object | null = await userModel.getUserByEmail.v1(data.user_email);
+            
+            data.password_hash = await bcrypt.hash(data.password, 8);
+    
+            delete data.password;
+    
+            const { id_user, user_name, user_email, password_hash, user_permission } = await userModel.createUser.v1(data);
+    
+            return res.status(200).json({ id_user, user_name, user_email, password_hash, user_permission });
 
-        if (userExists) {
-            return res.status(409).json({ error: "User already exists!" });
+        } catch (error) {
+            if(error instanceof Prisma.PrismaClientKnownRequestError){
+                if(error.code === 'P2002'){
+                    return res.status(409).json({ error: "Unique constraint failed on the {constraint}"});
+                }
+            }
+            console.log(error)
         }
 
-        data.password_hash = await bcrypt.hash(data.password, 8);
+        return res.status(500).json({error: 'Internal server error'});
 
-        delete data.password;
-
-        const { id_user, user_name, user_email, password_hash, user_permission } = await userModel.createUser.v1(data);
-
-        return res.status(200).json({ id_user, user_name, user_email, password_hash, user_permission });
     }
 
     async getAll(req: Request, res: Response): Promise<object> {
-        const allUsers: Array<object> = await userModel.getAllUsers.v1();
 
-        if(!allUsers)
-            return res.status(400).json({error: 'Error getting all users'});
+        try {
+            const allUsers: Array<object> = await userModel.getAllUsers.v1();
 
-        return res.status(200).json(allUsers);
+            if(!allUsers)
+                return res.status(400).json({error: 'Error getting all users'});
+
+            return res.status(200).json(allUsers);
+            
+        } catch (error) {
+            
+        }
+
+        return res.status(500).json({error: 'Internal server error'});
+
     }
 
     async getById(req: Request, res: Response): Promise<object> {
@@ -75,15 +95,24 @@ class UserController {
         return res.status(200).json(user);
     }
 
-    async removeUser(req: Request, res: Response) {
+    async removeUser(req: Request, res: Response): Promise<object> {
         const userId: number = req.body.data
 
-        const updatedUser: object = await userModel.deleteUser.v1(userId);
+        try {
+            const updatedUser: any = await userModel.deleteUser.v1(userId);
+            
+            return res.status(200).json(updatedUser);
+            
+        } catch (error) {
+            if(error instanceof Prisma.PrismaClientKnownRequestError){
+                if(error.code === 'P2025'){
+                    return res.status(400).json({ error: "An operation failed because it depends on one or more records that were required but not found. {cause}" });
+                }
+            }
+            console.log(error)
+        }
 
-        if(!updatedUser)
-            return res.status(400).json({error: 'Error deleting user'});
-
-        return res.status(200).json(updatedUser);
+        return res.status(500).json({error: 'Internal server error'});
     }
 
     async update(req: Request, res: Response): Promise<object> {
