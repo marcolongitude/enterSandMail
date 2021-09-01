@@ -28,18 +28,24 @@ export const UserList = styled.div`
 `;
 
 export const InfoUser = styled.div`
-  padding-top: 33px;
+  padding-top: 0px;
+`;
+
+export const ContainerTags = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 `;
 
 export const UserCard = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  flex-direction: row;
+  flex-direction: column;
   padding: 15px;
   margin: 15px;
   width: 30%;
-  height: 100px;
+  height: 110px;
   background-color: ${colors.placeholder};
   -webkit-box-shadow: 3px 5px 11px -5px #000000; 
   box-shadow: 3px 5px 11px -5px #000000;
