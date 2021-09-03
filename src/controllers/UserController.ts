@@ -3,8 +3,9 @@ import bcrypt from "bcryptjs";
 import checkPassword from '../util/checkPassword';
 import { Request, Response } from 'express';
 
+import { requestAPI } from '../util/requestAPI'
+
 import userModel from '../model/user';
-import SaveContactsController from './SaveContactsController';
 import { Prisma } from '@prisma/client';
 
 interface IDataUser {
@@ -31,45 +32,54 @@ class UserController {
             return res.status(400).json({error: 'Validation fails'});
         }
 
-        try {
-            const userExists: object | null = await userModel.getUserByEmail.v1(data.user_email);
-            
-            data.password_hash = await bcrypt.hash(data.password, 8);
-    
-            delete data.password;
-    
-            const { id_user, user_name, user_email, password_hash, user_permission } = await userModel.createUser.v1(data);
-    
-            return res.status(200).json({ id_user, user_name, user_email, password_hash, user_permission });
+        const [userExists, errorGetUser] = await requestAPI(userModel.getUserByEmail.v1(data.user_email))
 
-        } catch (error) {
-            if(error instanceof Prisma.PrismaClientKnownRequestError){
-                if(error.code === 'P2002'){
+        if(errorGetUser instanceof Prisma.PrismaClientKnownRequestError){
+            if(errorGetUser.code === 'P2025'){
+                return res.status(409).json({ error: "An operation failed because it depends on one or more records that were required but not found. {cause}" });
+            }
+            return res.status(500).json({ error: "Error !!!!"});
+        }
+
+        if(userExists){
+            return res.status(409).json({ error: "User already exists!" });
+        }
+
+        data.password_hash = await bcrypt.hash(data.password, 8);
+
+        delete data.password;
+
+        const [ , errorCreateuser] = await requestAPI(userModel.createUser.v1(data))
+
+        if(errorCreateuser){
+            if(errorCreateuser instanceof Prisma.PrismaClientKnownRequestError){
+                if(errorCreateuser.code === 'P2002'){
                     return res.status(409).json({ error: "Unique constraint failed on the {constraint}"});
                 }
             }
-            console.log(error)
+            return res.status(500).json({ error: "Error !!!!"});
         }
 
-        return res.status(500).json({error: 'Internal server error'});
-
+        return res.status(201).json('User created successfully!');
+        
     }
 
     async getAll(req: Request, res: Response): Promise<object> {
 
-        try {
-            const allUsers: Array<object> = await userModel.getAllUsers.v1();
+        const [ users, errorGetAllUsers ] = await requestAPI(userModel.getAllUsers.v1())
 
-            if(!allUsers)
-                return res.status(400).json({error: 'Error getting all users'});
+        if(errorGetAllUsers instanceof Prisma.PrismaClientKnownRequestError){
+            console.log('passouuuuuuuuuuuuuuuuuuuuuu')
+            console.log(errorGetAllUsers)
 
-            return res.status(200).json(allUsers);
-            
-        } catch (error) {
-            
+            return res.status(500).json({error: 'Internal server error'});
         }
 
-        return res.status(500).json({error: 'Internal server error'});
+        if(!users.length){
+            return res.status(400).json({ success: "Empty user list" });
+        }
+
+        return res.status(200).json(users);
 
     }
 
@@ -77,42 +87,58 @@ class UserController {
         const userId: string = req.params.id;
         const id: number = parseInt(userId);
 
-        const user: object | null = await userModel.getUser.v1(id);
+        const [ user, errorGetUserById ] = await requestAPI(userModel.getUser.v1(id))
 
-        if(!user)
-            return res.status(401).json({ error: "User not exists!" });
+        if(errorGetUserById instanceof Prisma.PrismaClientKnownRequestError){
+            if(errorGetUserById.code === 'P2025'){
+                return res.status(409).json({ 
+                    error: errorGetUserById.meta, 
+                    codePrisma: errorGetUserById.code, 
+                    clientVersion: errorGetUserById.clientVersion 
+                });
+            }
+            return res.status(500).json({error: 'Internal server error'});
+        }
 
         return res.status(200).json(user);
     }
 
     async getByEmail(req: Request, res: Response): Promise<object> {
         const userEmail: string = req.params.email;
-        const user: object | null = await userModel.getUserByEmail.v1(userEmail);
 
-        if(!user)
-            return res.status(401).json({ error: "User not exists!" });
+        const [userExists, errorGetUser] = await requestAPI(userModel.getUserByEmail.v1(userEmail))
 
-        return res.status(200).json(user);
+        if(errorGetUser instanceof Prisma.PrismaClientKnownRequestError){
+            if(errorGetUser.code === 'P2025'){
+                return res.status(409).json({ error: "An operation failed because it depends on one or more records that were required but not found. {cause}" });
+            }
+            return res.status(500).json({ error: "Error !!!!"});
+        }
+
+        if(!userExists){
+            return res.status(400).json({ error: "User not found!" });
+        }
+
+        return res.status(200).json(userExists);
     }
 
     async removeUser(req: Request, res: Response): Promise<object> {
         const userId: number = req.body.data
 
-        try {
-            const updatedUser: any = await userModel.deleteUser.v1(userId);
-            
-            return res.status(200).json(updatedUser);
-            
-        } catch (error) {
-            if(error instanceof Prisma.PrismaClientKnownRequestError){
-                if(error.code === 'P2025'){
-                    return res.status(400).json({ error: "An operation failed because it depends on one or more records that were required but not found. {cause}" });
-                }
+        const [ errorDeleteUser ] = await requestAPI(userModel.deleteUser.v1(userId))
+
+        if(errorDeleteUser instanceof Prisma.PrismaClientKnownRequestError){
+            if(errorDeleteUser.code === 'P2025'){
+                return res.status(409).json({ 
+                    error: errorDeleteUser.meta, 
+                    codePrisma: errorDeleteUser.code, 
+                    clientVersion: errorDeleteUser.clientVersion 
+                });
             }
-            console.log(error)
+            return res.status(500).json({error: 'Internal server error'});
         }
 
-        return res.status(500).json({error: 'Internal server error'});
+        return res.status(200).json('User deleted successfully!');
     }
 
     async update(req: Request, res: Response): Promise<object> {
