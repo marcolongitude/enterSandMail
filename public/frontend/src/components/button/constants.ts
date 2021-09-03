@@ -19,7 +19,3 @@ export const theme = {
     large: '60px'    
   }
 }
-
-export default {
-  theme, 
-}
