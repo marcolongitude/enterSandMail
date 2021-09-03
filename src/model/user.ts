@@ -1,8 +1,14 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, users } from '@prisma/client';
 const prisma = new PrismaClient();
 
+type DataCreateUserType = {
+    user_name : string;
+    user_email : string;
+    password_hash : string;
+}
+
 export const createUser = {
-    v1: async(body:any)=> {
+    v1: async(body: DataCreateUserType): Promise<object> => {
         const response = await prisma.users.create({
             data: body
         });
@@ -11,7 +17,7 @@ export const createUser = {
 }
 
 export const getAllUsers = {
-        v1: async()=> {
+        v1: async(): Promise<Array<object>> => {
         return await prisma.users.findMany(
             {
                 where: {
@@ -36,7 +42,7 @@ export const getUser = {
 }
 
 export const getUserByEmail = {
-    v1: async(email: string) => {
+    v1: async(email: string): Promise<object | null> => {
         return await prisma.users.findUnique({
             where: { 
                 user_email: email 
