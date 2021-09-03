@@ -22,7 +22,7 @@ export const sessionUser = async function (route: string, body: TSessionUser): P
     });
     
     return response;
-  } catch (err) {
+  } catch (err: any) {
     //TODO: tratar erro
     console.log(err)
 
@@ -41,7 +41,7 @@ export const addUser = async function (route: string, body: any, token: string) 
     })
 
     return response
-  }catch(err){
+  }catch(err: any){
     if (err.response.data.status === 409) {
       let error: Terror = {
         status: err.response.status,
@@ -73,7 +73,7 @@ export const removeUser = async function (route: string, id_user: number, token:
 
     return response
 
-  }catch(err){
+  }catch(err: any){
 
     if (err.response.status === 409) {
       let error: Terror = {
