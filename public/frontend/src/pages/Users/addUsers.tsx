@@ -75,18 +75,20 @@ export const AddUsers = () => {
       return;
     }
 
-    toast.success(` ${response.status} : Usuário criado com sucesso`, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-    });
-    setTimeout(() => {
-      
-      flowService.goTo(ROUTES.USERS);
-      setLoader(false)
-    }, 3000);
+    if(response.status === 201){
+      toast.success(` ${response.status} : ${response.data}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+      setTimeout(() => {
+        
+        flowService.goTo(ROUTES.USERS);
+        setLoader(false)
+      }, 3000);
+    }
 
     setLoader(false)
 
