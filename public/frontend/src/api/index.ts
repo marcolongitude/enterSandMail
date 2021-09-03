@@ -75,17 +75,16 @@ export const removeUser = async function (route: string, id_user: number, token:
 
   }catch(err){
 
-    if (err.response.status === 400) {
+    if (err.response.status === 409) {
       let error: Terror = {
         status: err.response.status,
         error: err,
-        message: err.response.data.error
+        message: err.response.data.error.cause
       };
 
       return error;
     }
   }
-
 }
 
 export const dataContactsUpload = async function (route: string, body: Array<object>, token: string) {
