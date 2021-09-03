@@ -8,8 +8,12 @@ import { UserContainer, UserCard, UserList, ButtonWrapper, InfoUser, ContainerTa
 import { Button } from '../../components/button'
 import { Text, TextButton } from '../../components/typography'
 import { Tag } from '../../components/tag'
+import { SimpleCard } from '../../components/card'
+
 import { ROUTES } from '../../constants';
+
 import { toast, ToastContainer } from 'react-toastify';
+
 
 export const Users = (): JSX.Element => {
 
@@ -21,7 +25,7 @@ export const Users = (): JSX.Element => {
     setTokenAuth(token)
     
     const contacts: any = await getAllContacts('/users', token)
-    setDataContacts(contacts.data)
+    setDataContacts(contacts?.data)
   }
   
   useEffect(()=> {
@@ -49,7 +53,7 @@ export const Users = (): JSX.Element => {
         getContacts()
       }
 
-      if(response.status === 400) {
+      if(response.status === 409) {
         toast.error(` ${response.status} : ${response.message} `, {
           position: "top-right",
           autoClose: 5000,
@@ -97,9 +101,16 @@ export const Users = (): JSX.Element => {
       <ButtonWrapper>
         <Button onClick={redirectAddUser} width="exsmall" color="blue" type="submit">Adicionar Usuário</Button>
       </ButtonWrapper>
-      <UserList>
-        {renderContactsCard()}  
-      </UserList>
+      {dataContacts &&
+        <div>
+          <UserList>
+            {renderContactsCard()}  
+          </UserList>
+        </div>
+      }
+      {!dataContacts &&
+        <SimpleCard text="Nenhum usuário encontrado, cadastre um usuário" />
+      }
     </UserContainer>  
   );
 
