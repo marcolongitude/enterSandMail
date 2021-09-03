@@ -43,7 +43,7 @@ export const Users = (): JSX.Element => {
       const response: any = await removeUser('/users', id_user, tokenAuth)
 
       if(response.status === 200) {
-        toast.success(` ${response.status} : Usuário deletado com sucesso`, {
+        toast.success(` ${response.status} : ${response.data}`, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -54,7 +54,7 @@ export const Users = (): JSX.Element => {
       }
 
       if(response.status === 409) {
-        toast.error(` ${response.status} : ${response.message} `, {
+        toast.error(` ${response.status} : ${response.data} `, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
