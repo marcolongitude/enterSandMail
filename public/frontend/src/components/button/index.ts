@@ -2,10 +2,10 @@ import styled, {css} from 'styled-components'
 import { theme } from './constants'
 
 
-interface IProps {
-  color?: keyof typeof theme.colors
-  width?: keyof typeof theme.width
-  height?: keyof typeof theme.height
+type IProps ={
+  color?: keyof typeof theme.colors;
+  width?: keyof typeof theme.width;
+  height?: keyof typeof theme.height;
 }
 
 export const Button = styled('button').attrs<IProps>(() => ({}))<IProps>`
