@@ -1,21 +1,22 @@
 import styled, {css} from 'styled-components'
 import { theme } from './constants'
+import { colors } from '../../styles'
 
 interface IProps {
-  color?: keyof typeof theme.colors
+  color?: keyof typeof colors
   width?: keyof typeof theme.width
   height?: keyof typeof theme.height
 }
 
 export const Tag = styled('div').attrs<IProps>(() => ({}))<IProps>`
   ${({
-    color = 'blue',
+    color = 'blueActive',
     width = 'medium',
     height = 'medium'
   }) => css`
     width: ${theme.width[width]};
     margin: 3px 3px;
-    background-color: ${theme.colors[color]};
+    background-color: ${colors[color]};
     height: ${theme.height[height]};
     cursor: pointer;
     color: white;

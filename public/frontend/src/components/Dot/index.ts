@@ -4,15 +4,16 @@ import styled, { keyframes } from 'styled-components'
 interface DotProps {
   delay: string
 }
+
 const BounceAnimation = keyframes`
-0% { margin-bottom: 0; }
-50% { margin-bottom: 15px }
-100% { margin-bottom: 0 }
+  0% { margin-bottom: 0; }
+  50% { margin-bottom: 15px }
+  100% { margin-bottom: 0 }
 `;
 
 export const DotWrapper = styled.div`
-display: flex;
-align-items: flex-end;
+  display: flex;
+  align-items: flex-end;
 `;
 
 export const Dot = styled.div`

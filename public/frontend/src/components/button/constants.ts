@@ -1,12 +1,4 @@
 export const theme = {
-  colors: {
-    white: '#ffffff',
-    black: '#111',
-    gray: '#333',
-    red: '#bb3e03',
-    blue: '#0077b6',
-    green: '#25a244'
-  },
   width: {
     block: '100%',
     medium: '75%',
