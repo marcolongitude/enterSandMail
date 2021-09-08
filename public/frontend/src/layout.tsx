@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./components/NavBar/Navbar";
 import GlobalStyle from "./globalStyles";
-import Footer from './components/Footer'
+// import Footer from './components/Footer'
 
-const Layout = (props: { children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }) => {
+export const Layout = (props: { 
+    children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; 
+  }) => {
+  
   const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
