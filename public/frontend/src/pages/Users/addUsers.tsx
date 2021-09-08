@@ -99,7 +99,7 @@ export const AddUsers = () => {
     <ContainerAddUser>
        <ToastContainer />
       <ContainerTitle>
-        <Text color="blue">Adicionar usuário</Text>
+        <Text color="blueActive">Adicionar usuário</Text>
       </ContainerTitle>
 
       <ContainerForm onSubmit={handleSubmit(onSubmit)}>

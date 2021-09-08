@@ -99,7 +99,7 @@ export const Login = (): JSX.Element => {
       ) : (
         <LoginBox >
           <ToastContainer />
-          <Text color='blue' size="medium" >Enter Sand Email</Text>
+          <Text color='blueActive' size="medium" >Enter Sand Email</Text>
           <LogoSandMailImg src={logoSandMail} alt='logo sand mail'/>
           <ContainerComponentsLogin >
               <FormLogin onSubmit={handleSubmit(onSubmit)}>

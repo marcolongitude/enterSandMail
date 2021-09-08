@@ -90,14 +90,14 @@ export const Home = (): JSX.Element => {
       {!loading &&
         <NavOption>
           <BoxOption>
-              <Text color='blue' size="medium" >Carregar arquivo excel </Text>
+              <Text color='blueActive' size="medium" >Carregar arquivo excel </Text>
               <AreaDragFile>
                 <Form onSubmit={onSubmit}>
                   {/* <TextBoxOption>Arraste o arquivo para iniciar o envio</TextBoxOption> */}
                   <ButtonFileUpload onChange={onChangeFile} type="file" name="fileXLSX" />
                   {!isValidateForm && 
-                    <Text color="blue" size="xsmall">Tipo de arquivo não suportado</Text>}
-                  <Button width="medium" color="blue" type="submit">
+                    <Text color="blueActive" size="xsmall">Tipo de arquivo não suportado</Text>}
+                  <Button width="medium" color="blueActive" type="submit">
                     <TextButton size="exsmall" >Selecione um arquivo para carregar</TextButton>
                   </Button>
                 </Form>
