@@ -3,13 +3,10 @@ import styled from "styled-components";
 import { colors } from '../../styles'
 
 export const Container = styled.div`
-    height: 100vh;
-    width: 100%;
+    height: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    top: 0;
 `;
 
 export const LoginBox = styled.div`
@@ -18,7 +15,7 @@ export const LoginBox = styled.div`
     justify-content: center;
     align-items: center;
     background-color: ${colors.backgroundColorDefault};
-    height: 40%;
+    height: 48%;
     width: 65%;
     max-width: 600px;
     border-radius: 9px;
