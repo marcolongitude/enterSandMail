@@ -18,6 +18,7 @@ import { dataContactsUpload } from '../../api'
 import { AxiosResponse } from "axios";
 
 import Loading from '../../components/Loading'
+import Layout from "../../layout";
 
 const SUPPORTED_FORMATS = [
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -81,8 +82,9 @@ export const Home = (): JSX.Element => {
     },4000)
   }
 
-  return (
-    <Container>
+  const renderMain = () => {
+    return (
+      <Container>
       {loading && 
         <Loading type="spinningBubbles" />
       }  
@@ -118,6 +120,15 @@ export const Home = (): JSX.Element => {
         </NavOption>
       }
     </Container>
+    )
+  }
+
+  return (
+
+    <Layout 
+      children={renderMain()}
+    />
+    
   )
 }
 
