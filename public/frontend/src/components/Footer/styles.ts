@@ -1,14 +1,10 @@
 import styled from 'styled-components'
 import { colors } from '../../styles'
 
-export const FooterWrapper = styled.footer`
+export const FooterWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 100%;
-  height: 100px;
-  bottom: 0;
-  position: absolute;
   background-color: ${colors.blueActive}
 `;
 
