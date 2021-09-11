@@ -25,6 +25,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
 
 import { Text, TextButton, Button, Input, Dot, DotWrapper, TextError } from '../../components/'
+import Layout from '../../layout';
 
 
 interface IResponse {
@@ -92,8 +93,9 @@ export const Login = (): JSX.Element => {
     }
   }, []);
 
-  return (
-    <Container > 
+  const renderMain = () => {
+    return (
+      <Container > 
       {isAuth ? ( 
           <Redirect to={ROUTES.HOME} />
       ) : (
@@ -124,6 +126,14 @@ export const Login = (): JSX.Element => {
         </LoginBox>
       )}
     </Container>
+    )
+  }
+
+
+  return (
+    <Layout 
+      children={renderMain()}
+    />
   )
 }
 
