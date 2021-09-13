@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 
-import { addUser } from '../../api'
-// import { IResponse } from '../../interfaces'
+import { addUser, IUser } from '../../api'
 
-import { ContainerAddUser, ContainerTitle, ContainerForm, SideForm } from './stylesAddUser'
+import { ContainerTitle, ContainerForm, SideForm } from './stylesAddUser'
 import { Text, TextError, Input, Select, Button, TextButton, DotWrapper, Dot } from '../../components'
 import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -12,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
 import { flowService } from '../../helpers/flow'
 import { ROUTES } from '../../constants'
+import Layout from '../../layout'
 
 interface IFormInputs {
   user_name: string;
@@ -20,37 +20,32 @@ interface IFormInputs {
   user_permission: string;
 }
 
-export interface IResponse {
-  status?: number;
-  error?: string;
-  message?: string;
-  data?: object;
-} 
-
 const schema = yup.object().shape({
   user_name: yup.string().max(100).required('O campo nome é obrigatório'),
   user_email: yup.string().email('Entre com um email válido').max(100).required('O campo email é obrigatório'),
   password: yup.string().max(100).required('O campo senha é obrigatório'),
 });
 
-export const AddUsers = () => {
+export const AddUsers = (): JSX.Element => {
 
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
     resolver: yupResolver(schema)
   });
 
-  const onSubmit = async (data: IFormInputs) => {
+  const onSubmit = async (data: IFormInputs): Promise<void> => {
 
     setLoader(true)
 
-    const token: any = localStorage.getItem('reduxState')
+    const token: string | null = localStorage.getItem('reduxState') 
 
-    let response: any = await addUser('users', data, token)
+    if(!token) return
+    
+    
+    let response: IUser = await addUser('users', data, token)
 
     if(response.status === 401){
-      console.log(response.message, response.status)
       toast.error(` ${response.status} : ${response.message} `, {
         position: "top-right",
         autoClose: 5000,
@@ -63,7 +58,6 @@ export const AddUsers = () => {
     }
 
     if(!response.data){
-      console.log(response.message, response.status)
       toast.error(` ${response.status} : ${response.message} `, {
         position: "top-right",
         autoClose: 5000,
@@ -92,16 +86,21 @@ export const AddUsers = () => {
 
     setLoader(false)
 
-    console.log(response)
   }
 
-  return (
-    <ContainerAddUser>
-       <ToastContainer />
-      <ContainerTitle>
-        <Text color="blueActive">Adicionar usuário</Text>
-      </ContainerTitle>
+  const renderHeader = (): JSX.Element => {
+    return (
+      <>
+        <ToastContainer />
+        <ContainerTitle>
+          <Text color="blueActive">Adicionar usuário</Text>
+        </ContainerTitle>
+      </>
+    )
+  }
 
+  const renderMain = (): JSX.Element => {
+    return (
       <ContainerForm onSubmit={handleSubmit(onSubmit)}>
         <SideForm>
           <Input width="block" error={errors.user_name ? true : false} {...register("user_name")} id="user_name" placeholder="Nome do usuário"/>
@@ -131,8 +130,14 @@ export const AddUsers = () => {
           )}
         </Button>
       </ContainerForm>
+    )
+  }
 
-    </ContainerAddUser>
+  return (
+    <Layout 
+      header={renderHeader()}
+      children={renderMain()}
+    />
   )
 }
 

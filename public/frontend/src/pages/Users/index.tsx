@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import { getAllContacts, removeUser } from '../../api'
+import { getAllContacts, removeUser, IUser } from '../../api'
 import { flowService } from "../../helpers/flow"
 
-import { UserContainer, UserCard, UserList, ButtonWrapper, InfoUser, ContainerTags } from './styles';
+import { UserCard, UserList, ButtonWrapper, InfoUser, ContainerTags } from './styles';
 
 import { Button } from '../../components/button'
 import { Text, TextButton } from '../../components/typography'
@@ -14,24 +14,29 @@ import { ROUTES } from '../../constants';
 
 import { toast, ToastContainer } from 'react-toastify';
 
+import Layout from '../../layout';
+
 
 export const Users = (): JSX.Element => {
 
-  const [dataContacts, setDataContacts] = useState([])
+  const [dataContacts, setDataContacts] = useState<IUser[]>([])
   const [tokenAuth, setTokenAuth] = useState('')
 
   async function getContacts() {
-    const token: any = localStorage.getItem('reduxState')
+    const token: string | null = localStorage.getItem('reduxState')
+
+    if(!token) return
+
     setTokenAuth(token)
+
+    const response: any = await getAllContacts('/users', token)
     
-    const contacts: any = await getAllContacts('/users', token)
-    setDataContacts(contacts?.data)
+    if(!response) return []
+
+    setDataContacts(response.data)
   }
   
-  useEffect(()=> {
-
-    getContacts()
-  }, [])
+  useEffect(()=> { getContacts() }, [])
   
   const redirectAddUser = () => {
     flowService.goTo(ROUTES.ADD_USERS)
@@ -71,6 +76,10 @@ export const Users = (): JSX.Element => {
 
   }
 
+  const handleUpdateUser = async() => {
+    alert('teste botao editar')
+  }
+
   const renderContactsCard = () => {
     return (
       <>
@@ -82,7 +91,7 @@ export const Users = (): JSX.Element => {
               <p >{contact.user_email}</p>
             </InfoUser>
             <ContainerTags>
-              <Tag width="medium" height="thin">
+              <Tag onClick={handleUpdateUser} width="medium" height="thin">
                 <TextButton size="tiny" color="white" >Editar</TextButton>
               </Tag>
               <Tag onClick={()=> handleRemoveUser(contact.id_user)} width="medium" height="thin" color="red">
@@ -95,23 +104,40 @@ export const Users = (): JSX.Element => {
     )
   }
 
+  const renderHeader = () => {
+    return (
+      <>
+        <Text size="large" color="blueActive" >Lista de usuários</Text>  
+        <ButtonWrapper>
+          <Button onClick={redirectAddUser} width="exsmall" color="blueActive" type="submit">Adicionar Usuário</Button>
+        </ButtonWrapper>    
+      </>
+    )
+  }
+
+  const renderMain = () => {
+    return (
+      <>
+        {dataContacts &&
+          <div>
+            <UserList>
+              {renderContactsCard()}  
+            </UserList>
+          </div>
+        }
+        {!dataContacts &&
+          <SimpleCard color="backgroundColorSimpleCard" text="Nenhum usuário encontrado, cadastre um usuário" />
+        }
+      </>
+    )
+  }
+
   return (
-    <UserContainer>
-      <Text size="large" color="blue" >Lista de usuários</Text>
-      <ButtonWrapper>
-        <Button onClick={redirectAddUser} width="exsmall" color="blue" type="submit">Adicionar Usuário</Button>
-      </ButtonWrapper>
-      {dataContacts &&
-        <div>
-          <UserList>
-            {renderContactsCard()}  
-          </UserList>
-        </div>
-      }
-      {!dataContacts &&
-        <SimpleCard text="Nenhum usuário encontrado, cadastre um usuário" />
-      }
-    </UserContainer>  
+
+    <Layout
+      header = {renderHeader()}
+      children = {renderMain()}
+    />
   );
 
 }
