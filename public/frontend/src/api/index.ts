@@ -15,9 +15,26 @@ type Terror = {
   message: string;
 };
 
-export const sessionUser = async function (route: string, body: TSessionUser): Promise<object> {
+type TResponse = {
+  status?: number;
+  error?: string;
+  message?: string;
+  data?: object | Array<object>;
+}
+
+export interface IUser extends TResponse  { 
+  user?: {
+    id_user: number;
+    user_name: string;
+    user_email: string;
+    user_permission: string;
+  }
+  token?: string;
+}
+
+export const sessionUser = async function (route: string, body: TSessionUser): Promise<IUser> {
   try {
-    const response = await api.post(route, {
+    const response: IUser = await api.post(route, {
       data: body,
     });
     
@@ -30,9 +47,9 @@ export const sessionUser = async function (route: string, body: TSessionUser): P
   }
 };
 
-export const addUser = async function (route: string, body: any, token: string) {
+export const addUser = async function (route: string, body: any, token: string): Promise<IUser> {
   try {
-    const response = await api.post(route, {
+    const response: IUser = await api.post(route, {
       data: body
     }, {
       headers: {
@@ -43,7 +60,7 @@ export const addUser = async function (route: string, body: any, token: string) 
     return response
   }catch(err: any){
     if (err.response.data.status === 409) {
-      let error: Terror = {
+      let error = {
         status: err.response.status,
         error: err,
         message: err.response.data.error
@@ -52,7 +69,7 @@ export const addUser = async function (route: string, body: any, token: string) 
       return error;
     }
 
-    let error: Terror = {
+    let error: IUser = {
       status: err.response.status,
       error: err,
       message: err.response.data.error
@@ -104,16 +121,18 @@ export const dataContactsUpload = async function (route: string, body: Array<obj
   }
 };
 
-export const getAllContacts = async function (route: string, token: string) {
+export const getAllContacts = async function (route: string, token: string): Promise<Array<IUser>> {
   try {
-    const response = await api.get(route, {
+    const response: Array<IUser> = await api.get(route, {
       headers: {
         'Authorization': token
       }
     })
     return response;
-  } catch (err) {
+  } catch (err: any) {
     console.log(err)
+
+    return err
   }
 };
 
