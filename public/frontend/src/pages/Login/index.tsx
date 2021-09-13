@@ -19,7 +19,7 @@ import { flowService } from "../../helpers/flow"
 
 import {useDispatch} from 'react-redux'
 import { loginUser } from '../../store/slices/userLogin/userLoginSlice'
-import { sessionUser } from '../../api'
+import { sessionUser, IUser } from '../../api'
 
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
@@ -27,13 +27,6 @@ import "react-toastify/dist/ReactToastify.min.css";
 import { Text, TextButton, Button, Input, Dot, DotWrapper, TextError } from '../../components/'
 import Layout from '../../layout';
 
-
-interface IResponse {
-  status?: number;
-  error?: string;
-  message?: string;
-  data?: object;
-}     
 
 interface IFormInputs {
   user_email: string
@@ -55,9 +48,9 @@ export const Login = (): JSX.Element => {
     resolver: yupResolver(schema)
   });
 
-  const onSubmit = async (data: IFormInputs) => {
+  const onSubmit = async (data: IFormInputs): Promise<void> => {
     setLoader(true)
-    let response: IResponse = await sessionUser('sessions', data); 
+    let response: IUser = await sessionUser('sessions', data); 
 
     if(!response.data){
       console.log(response.message, response.status)
