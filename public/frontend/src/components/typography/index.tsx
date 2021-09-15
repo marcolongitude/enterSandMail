@@ -22,6 +22,7 @@ export const Text = styled('h1').attrs<IProps>(({ level = 6}) => ({
     font-size: ${theme.sizes[size]};
     color: ${colors[color]};
     font-weight: ${fontWeight};
+    margin: 30px 0;
   `}
 `
 
