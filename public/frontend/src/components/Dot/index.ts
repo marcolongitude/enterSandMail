@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components'
 
 
-interface DotProps {
+type DotProps = {
   delay: string
 }
 
