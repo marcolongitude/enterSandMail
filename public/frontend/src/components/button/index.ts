@@ -19,7 +19,7 @@ export const Button = styled('button').attrs<IProps>(() => ({}))<IProps>`
     background-color: ${colors[color]};
     height: ${theme.height[height]};
     cursor: pointer;
-    margin: 15px 0 0 0;
+    margin: 15px 0 15px 0;
     color: white;
     border: none;
     border-radius: 6px;
