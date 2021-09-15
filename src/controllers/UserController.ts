@@ -69,9 +69,6 @@ class UserController {
         const [ users, errorGetAllUsers ] = await requestAPI(userModel.getAllUsers.v1())
 
         if(errorGetAllUsers instanceof Prisma.PrismaClientKnownRequestError){
-            console.log('passouuuuuuuuuuuuuuuuuuuuuu')
-            console.log(errorGetAllUsers)
-
             return res.status(500).json({error: 'Internal server error'});
         }
 
@@ -139,6 +136,32 @@ class UserController {
         }
 
         return res.status(200).json('User deleted successfully!');
+    }
+
+    async activateUser(req: Request, res: Response): Promise<object> {
+        const userId: number = req.body.data
+
+        const [ userExists, errorActivateUser ] = await requestAPI(userModel.activateUser.v1(userId))
+
+        if(userExists){
+            if(userExists.user_active === 'active' ) {
+                return res.status(400).json({ error: "User already active!" });
+            }
+            return res.status(200).json('User activated successfully!');
+        }
+
+        if(errorActivateUser instanceof Prisma.PrismaClientKnownRequestError){
+            if(errorActivateUser.code === 'P2025'){
+                return res.status(409).json({ 
+                    error: errorActivateUser.meta, 
+                    codePrisma: errorActivateUser.code, 
+                    clientVersion: errorActivateUser.clientVersion 
+                });
+            }
+        }
+        
+        return res.status(500).json({error: 'Internal server error'});
+        
     }
 
     async update(req: Request, res: Response): Promise<object> {
