@@ -37,6 +37,10 @@ export const ContainerTags = styled.div`
   justify-content: flex-end;
 `;
 
+type TuserCard = {
+  active: boolean
+}
+
 export const UserCard = styled.div`
   display: flex;
   justify-content: space-between;
@@ -46,7 +50,7 @@ export const UserCard = styled.div`
   margin: 15px;
   width: 30%;
   height: 110px;
-  background-color: ${colors.placeholder};
+  background-color:  ${(props: TuserCard) => props.active ? colors.green : colors.grayDark }; 
   -webkit-box-shadow: 3px 5px 11px -5px #000000; 
   box-shadow: 3px 5px 11px -5px #000000;
   border-radius: 5px;
