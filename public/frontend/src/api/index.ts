@@ -28,6 +28,7 @@ export interface IUser extends TResponse  {
     user_name: string;
     user_email: string;
     user_permission: string;
+    active: string;
   }
   token?: string;
 }
@@ -41,7 +42,16 @@ export const sessionUser = async function (route: string, body: TSessionUser): P
     return response;
   } catch (err: any) {
     //TODO: tratar erro
-    console.log(err)
+
+    if (err.response.status === 401) {
+      let error = {
+        status: err.response.status,
+        error: err,
+        message: err.response.data.error
+      };
+
+      return error;
+    }
 
     return err
   }
@@ -79,6 +89,32 @@ export const addUser = async function (route: string, body: any, token: string):
 }
 
 export const removeUser = async function (route: string, id_user: number, token: string) {
+  try {
+    const response = await api.patch(route, {
+      data: id_user
+    }, {
+      headers: {
+        'Authorization': token
+      }
+    })
+
+    return response
+
+  }catch(err: any){
+
+    if (err.response.status === 409) {
+      let error: Terror = {
+        status: err.response.status,
+        error: err,
+        message: err.response.data.error.cause
+      };
+
+      return error;
+    }
+  }
+}
+
+export const activateUser = async function (route: string, id_user: number, token: string) {
   try {
     const response = await api.patch(route, {
       data: id_user
