@@ -3,14 +3,14 @@ import * as Yup from 'yup';
 import checkPassword from '../util/checkPassword';
 import AuthConfig from '../middlewares/authConfigJWT';
 
-import { PrismaClient } from '@prisma/client';
 import { Request, Response } from "express";
+import { requestAPI } from "../util/requestAPI";
+import userModel from '../model/user';
+import { Prisma } from ".prisma/client";
 
 
 class SessionController {
   async store(req: Request, res: Response): Promise<object> {
-
-    const prisma = new PrismaClient();
 
     const schema = Yup.object().shape({
       user_email: Yup.string().email().required(),
@@ -27,17 +27,26 @@ class SessionController {
 
     const { user_email, password } = req.body.data;
 
-    const user = await prisma.users.findUnique({ where: { user_email } });
+    const [userExists, errorGetUser] = await requestAPI(userModel.getUserByEmail.v1(user_email))
 
-    if (!user) {
+    console.log(errorGetUser)
+
+    if(errorGetUser instanceof Prisma.PrismaClientKnownRequestError){
+      if(errorGetUser.code === 'P2025'){
+          return res.status(409).json({ error: "An operation failed because it depends on one or more records that were required but not found. {cause}" });
+      }
+      return res.status(500).json({ error: "Error !!!!"});
+    }
+
+    if (!userExists) {
       return res.status(401).json({ error: "User not found", status: 401 });
     }
 
-    if (!(await checkPassword(password, user.password_hash))) {
+    if (!(await checkPassword(password, userExists.password_hash))) {
       return res.status(401).json({ error: "Password does not Match" });
     }
 
-    const { id_user, user_name, user_permission } = user;
+    const { id_user, user_name, user_permission } = userExists;
 
     return res.json({
       user: {
