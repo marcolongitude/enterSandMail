@@ -52,8 +52,7 @@ export const Login = (): JSX.Element => {
     setLoader(true)
     let response: IUser = await sessionUser('sessions', data); 
 
-    if(!response.data){
-      console.log(response.message, response.status)
+    if(response.status === 401){
       toast.error(` ${response.status} : ${response.message} `, {
         position: "top-right",
         autoClose: 5000,
